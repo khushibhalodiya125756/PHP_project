@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <defs>
+    <linearGradient id="dreamGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f8ede8" />
+      <stop offset="35%" stop-color="#e5c1b3" />
+      <stop offset="75%" stop-color="#b87b68" />
+      <stop offset="100%" stop-color="#4a3f44" />
+    </linearGradient>
+    <linearGradient id="dreamGrad2" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.9" />
+      <stop offset="60%" stop-color="#e5c1b3" stop-opacity="0.5" />
+      <stop offset="100%" stop-color="#4a3f44" stop-opacity="0.1" />
+    </linearGradient>
+    <linearGradient id="goldGlow" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#f5d6ca" />
+      <stop offset="100%" stop-color="#d49b88" />
+    </linearGradient>
+    <filter id="softGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="2.5" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Outer Smooth Organic Droplet / Crescent Ring -->
+  <path d="M50 10 C74 10 88 28 88 52 C88 72 71 88 50 88 C30 88 14 72 14 52 C14 36 24 22 38 15 C34 24 35 37 43 45 C52 53 65 54 73 46 C74 61 63 76 48 76 C33 76 24 64 24 50 C24 34 36 19 50 10 Z" fill="url(#dreamGrad1)" />
+
+  <!-- Accent Shimmering Crescent Arc -->
+  <path d="M60 22 C72 31 76 45 71 58 C78 47 75 31 63 20 C62 20.6 61 21.3 60 22 Z" fill="url(#dreamGrad2)" />
+
+  <!-- Ethereal Radiance Sparkle (4-point star) -->
+  <path d="M50 26 L52.8 37.2 L64 40 L52.8 42.8 L50 54 L47.2 42.8 L36 40 L47.2 37.2 Z" fill="#ffffff" filter="url(#softGlow)" />
+  <circle cx="50" cy="40" r="2.2" fill="url(#goldGlow)" />
+</svg>
