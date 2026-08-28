@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DREAM Admin Portal — E-Commerce Management</title>
+  <link rel="icon" type="image/svg+xml" href="/assets/images/logo-icon.svg" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="/assets/css/style.css" />
+</head>
+<body class="bg-[#fcf8f7] dark:bg-[#141214] text-[#2d2a2a] dark:text-[#f5f2f3] antialiased min-h-screen">
+
+  <!-- ========================================== -->
+  <!-- ADMIN LOGIN SCREEN                         -->
+  <!-- ========================================== -->
+  <div id="admin-login-screen" class="min-h-screen flex items-center justify-center p-4">
+    <div class="glass-panel p-8 sm:p-10 rounded-3xl max-w-md w-full shadow-2xl border border-white/60 dark:border-stone-800">
+      <div class="text-center mb-8">
+        <div class="w-14 h-14 rounded-2xl bg-[#4a3f44] text-white flex items-center justify-center text-2xl mx-auto mb-4 shadow-xl border border-white/40">
+          <i class="fas fa-shield-halved text-[#e5c1b3]"></i>
+        </div>
+        <h1 class="font-serif text-2xl font-bold text-[#4a3f44] dark:text-white">DREAM Admin Portal</h1>
+        <p class="text-xs text-[#6d5f65] dark:text-stone-400 mt-1">Management suite for store operators & fulfillment</p>
+      </div>
+
+      <form id="form-admin-login" class="space-y-4">
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-[#4a3f44] dark:text-stone-300 mb-1">Username / Email</label>
+          <div class="relative">
+            <span class="absolute left-3.5 top-3 text-stone-400 text-xs"><i class="fas fa-user"></i></span>
+            <input type="text" id="admin-username" value="admin" class="w-full bg-white/70 dark:bg-stone-800/80 border border-white/60 dark:border-stone-700 rounded-xl pl-9 pr-3.5 py-2.5 text-xs focus:ring-2 focus:ring-[#e5c1b3] outline-none" required />
+          </div>
+        </div>
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-[#4a3f44] dark:text-stone-300 mb-1">Password</label>
+          <div class="relative">
+            <span class="absolute left-3.5 top-3 text-stone-400 text-xs"><i class="fas fa-lock"></i></span>
+            <input type="password" id="admin-password" value="admin123" class="w-full bg-white/70 dark:bg-stone-800/80 border border-white/60 dark:border-stone-700 rounded-xl pl-9 pr-3.5 py-2.5 text-xs focus:ring-2 focus:ring-[#e5c1b3] outline-none" required />
+          </div>
+        </div>
+        <button type="submit" class="w-full bg-[#4a3f44] hover:bg-[#5a4f54] text-white font-bold py-3 rounded-xl transition-all text-xs uppercase tracking-wider shadow-lg flex items-center justify-center gap-2">
+          <i class="fas fa-right-to-bracket text-[#e5c1b3]"></i> Sign In To Operator Console
+        </button>
+      </form>
+
+      <div class="mt-6 pt-4 border-t border-stone-200/60 dark:border-stone-800 text-center text-[11px] text-[#6d5f65] dark:text-stone-400">
+        Demo Login: <span class="font-mono bg-stone-200/50 dark:bg-stone-800 px-1.5 py-0.5 rounded text-stone-800 dark:text-stone-200">admin</span> / <span class="font-mono bg-stone-200/50 dark:bg-stone-800 px-1.5 py-0.5 rounded text-stone-800 dark:text-stone-200">admin123</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MAIN ADMIN DASHBOARD LAYOUT                -->
+  <!-- ========================================== -->
+  <div id="admin-dashboard-screen" class="hidden min-h-screen flex">
+    
+    <!-- Sidebar Navigation -->
+    <aside class="w-64 bg-[#4a3f44] text-white flex flex-col shrink-0 border-r border-white/10 shadow-xl z-20 hidden md:flex">
+      <!-- Brand Logo -->
+      <div class="p-6 border-b border-white/10 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-white/10 border border-white/20 p-1 flex items-center justify-center">
+            <img src="/assets/images/logo-icon.svg" alt="DREAM Logo" class="w-full h-full object-contain" referrerPolicy="no-referrer" />
+          </div>
+          <div>
+            <h2 class="font-serif text-lg font-bold tracking-tight text-white flex items-center gap-1">DREAM <span class="w-1.5 h-1.5 rounded-full bg-[#e5c1b3]"></span></h2>
+            <p class="text-[10px] text-[#e5c1b3] uppercase tracking-widest font-semibold">Admin Suite</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Nav List -->
+      <nav class="flex-1 p-4 space-y-1.5 overflow-y-auto text-xs">
+        <button data-tab="overview" class="nav-tab-btn active-tab w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-medium transition-all text-left">
+          <i class="fas fa-chart-pie w-4 text-center text-[#e5c1b3]"></i>
+          <span>Overview</span>
+        </button>
+
+        <button data-tab="products" class="nav-tab-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-medium transition-all text-left">
+          <i class="fas fa-pump-soap w-4 text-center text-[#e5c1b3]"></i>
+          <span>Products Catalog</span>
+          <span id="badge-products-count" class="ml-auto bg-white/10 text-[10px] px-2 py-0.5 rounded-full font-bold">0</span>
+        </button>
+
+        <button data-tab="orders" class="nav-tab-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-medium transition-all text-left">
+          <i class="fas fa-boxes-packing w-4 text-center text-[#e5c1b3]"></i>
+          <span>Orders & Shipping</span>
+          <span id="badge-pending-orders" class="ml-auto bg-rose-500 text-white text-[10px] px-2 py-0.5 rounded-full font-bold hidden">0</span>
+        </button>
+
+        <button data-tab="categories" class="nav-tab-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-medium transition-all text-left">
+          <i class="fas fa-layer-group w-4 text-center text-[#e5c1b3]"></i>
+          <span>Categories</span>
+        </button>
+
+        <button data-tab="coupons" class="nav-tab-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-medium transition-all text-left">
+          <i class="fas fa-ticket w-4 text-center text-[#e5c1b3]"></i>
+          <span>Discounts & Coupons</span>
+        </button>
+
+        <button data-tab="skin-diagnostics" class="nav-tab-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-medium transition-all text-left">
+          <i class="fas fa-dna w-4 text-center text-[#e5c1b3]"></i>
+          <span>Skin Diagnostics AI</span>
+        </button>
+
+        <button data-tab="customers" class="nav-tab-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-medium transition-all text-left">
+          <i class="fas fa-users w-4 text-center text-[#e5c1b3]"></i>
+          <span>Customer Accounts</span>
+        </button>
+
+        <button data-tab="reviews" class="nav-tab-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-medium transition-all text-left">
+          <i class="fas fa-star w-4 text-center text-[#e5c1b3]"></i>
+          <span>Reviews Moderation</span>
+        </button>
+
+        <div class="pt-4 border-t border-white/10 my-2"></div>
+
+        <button data-tab="settings" class="nav-tab-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-medium transition-all text-left">
+          <i class="fas fa-sliders w-4 text-center text-[#e5c1b3]"></i>
+          <span>Store Settings</span>
+        </button>
+      </nav>
+
+      <!-- Sidebar Footer -->
+      <div class="p-4 border-t border-white/10 text-xs">
+        <a href="/" target="_blank" class="flex items-center justify-between p-2.5 bg-white/10 hover:bg-white/20 rounded-xl transition-colors text-white mb-3">
+          <span class="flex items-center gap-2"><i class="fas fa-store text-[#e5c1b3]"></i> Store Front</span>
+          <i class="fas fa-external-link-alt text-[10px]"></i>
+        </a>
+        <div class="text-[10px] text-stone-300 flex items-center justify-between">
+          <span>DREAM v2.5 Admin</span>
+          <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="flex-1 flex flex-col min-w-0 overflow-y-auto">
+      
+      <!-- Top Header Bar -->
+      <header class="glass-nav sticky top-0 z-30 h-16 px-6 flex items-center justify-between border-b border-white/50 dark:border-stone-800">
+        <div class="flex items-center gap-4">
+          <button id="btn-mobile-sidebar-toggle" class="md:hidden text-lg text-[#4a3f44] dark:text-white"><i class="fas fa-bars"></i></button>
+          <div>
+            <h1 id="topbar-title" class="font-serif text-lg font-bold text-[#4a3f44] dark:text-white">Dashboard Overview</h1>
+            <p id="topbar-subtitle" class="text-[11px] text-[#6d5f65] dark:text-stone-400">Live sales performance & store management</p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-4 text-xs">
+          <!-- Global Search -->
+          <div class="relative hidden sm:block w-64">
+            <span class="absolute left-3 top-2.5 text-stone-400 text-xs"><i class="fas fa-search"></i></span>
+            <input type="text" id="global-admin-search" placeholder="Search products, orders..." class="w-full bg-white/70 dark:bg-stone-800/80 border border-white/60 dark:border-stone-700 rounded-xl pl-8 pr-3 py-1.5 text-xs focus:ring-2 focus:ring-[#e5c1b3] outline-none" />
+          </div>
+
+          <!-- Live Clock -->
+          <div class="hidden lg:flex items-center gap-2 bg-white/50 dark:bg-stone-800/50 px-3 py-1.5 rounded-xl border border-white/60 dark:border-stone-700 text-[11px]">
+            <i class="far fa-clock text-[#4a3f44] dark:text-[#e5c1b3]"></i>
+            <span id="live-admin-clock">00:00:00</span>
+          </div>
+
+          <!-- Theme Toggle -->
+          <button id="admin-theme-toggle" class="w-8 h-8 rounded-xl bg-white/60 dark:bg-stone-800 border border-white/60 dark:border-stone-700 flex items-center justify-center text-xs text-[#4a3f44] dark:text-stone-200">
+            <i class="fas fa-moon dark:hidden"></i>
+            <i class="fas fa-sun hidden dark:block"></i>
+          </button>
+
+          <!-- User Badge & Logout -->
+          <div class="flex items-center gap-2 pl-2 border-l border-stone-200 dark:border-stone-800">
+            <div class="w-8 h-8 rounded-xl bg-[#4a3f44] text-white flex items-center justify-center font-bold text-xs">
+              A
+            </div>
+            <div class="hidden sm:block">
+              <span class="font-bold text-xs block text-[#4a3f44] dark:text-white" id="admin-user-name">Admin</span>
+              <span class="text-[10px] text-[#6d5f65] dark:text-stone-400 block">Operator</span>
+            </div>
+            <button id="btn-admin-logout" title="Logout" class="ml-2 text-stone-500 hover:text-rose-600 p-1.5 text-sm transition-colors">
+              <i class="fas fa-sign-out-alt"></i>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <!-- View Containers -->
+      <main class="p-6 max-w-7xl w-full mx-auto space-y-8 flex-1">
+
+        <!-- ========================================== -->
+        <!-- TAB 1: OVERVIEW                            -->
+        <!-- ========================================== -->
+        <section id="tab-overview" class="admin-tab-content space-y-8">
+          
+          <!-- Key Metrics Cards -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="glass-panel p-5 rounded-2xl border-l-4 border-l-[#4a3f44] flex justify-between items-start shadow-xs">
+              <div>
+                <span class="text-[11px] font-bold text-[#6d5f65] dark:text-stone-400 uppercase tracking-wider block">Total Revenue</span>
+                <span id="stat-revenue" class="text-2xl font-serif font-bold text-[#4a3f44] dark:text-white mt-1 block">$0.00</span>
+                <span class="text-[10px] text-emerald-600 font-semibold flex items-center gap-1 mt-1"><i class="fas fa-arrow-up"></i> +14.2% vs last month</span>
+              </div>
+              <div class="w-10 h-10 rounded-xl bg-[#4a3f44]/10 text-[#4a3f44] dark:text-[#e5c1b3] flex items-center justify-center text-base">
+                <i class="fas fa-dollar-sign"></i>
+              </div>
+            </div>
+
+            <div class="glass-panel p-5 rounded-2xl border-l-4 border-l-indigo-500 flex justify-between items-start shadow-xs">
+              <div>
+                <span class="text-[11px] font-bold text-[#6d5f65] dark:text-stone-400 uppercase tracking-wider block">Total Orders</span>
+                <span id="stat-orders" class="text-2xl font-serif font-bold text-[#4a3f44] dark:text-white mt-1 block">0</span>
+                <span class="text-[10px] text-indigo-600 font-semibold flex items-center gap-1 mt-1"><i class="fas fa-boxes-packing"></i> All channels</span>
+              </div>
+              <div class="w-10 h-10 rounded-xl bg-indigo-500/10 text-indigo-600 flex items-center justify-center text-base">
+                <i class="fas fa-shopping-bag"></i>
+              </div>
+            </div>
+
+            <div class="glass-panel p-5 rounded-2xl border-l-4 border-l-emerald-500 flex justify-between items-start shadow-xs">
+              <div>
+                <span class="text-[11px] font-bold text-[#6d5f65] dark:text-stone-400 uppercase tracking-wider block">Active Products</span>
+                <span id="stat-products" class="text-2xl font-serif font-bold text-[#4a3f44] dark:text-white mt-1 block">0</span>
+                <span class="text-[10px] text-stone-500 font-medium mt-1 block"><span id="stat-low-stock-count">0</span> low stock alerts</span>
+              </div>
+              <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-600 flex items-center justify-center text-base">
+                <i class="fas fa-pump-soap"></i>
+              </div>
+            </div>
+
+            <div class="glass-panel p-5 rounded-2xl border-l-4 border-l-amber-500 flex justify-between items-start shadow-xs">
+              <div>
+                <span class="text-[11px] font-bold text-[#6d5f65] dark:text-stone-400 uppercase tracking-wider block">Total Customers</span>
+                <span id="stat-customers" class="text-2xl font-serif font-bold text-[#4a3f44] dark:text-white mt-1 block">0</span>
+                <span class="text-[10px] text-amber-600 font-semibold flex items-center gap-1 mt-1"><i class="fas fa-users"></i> Registered buyers</span>
+              </div>
+              <div class="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-600 flex items-center justify-center text-base">
+                <i class="fas fa-user-group"></i>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Action Bar -->
+          <div class="glass-panel p-4 rounded-2xl flex flex-wrap gap-3 items-center justify-between">
+            <span class="text-xs font-bold text-[#4a3f44] dark:text-stone-200 uppercase tracking-wider flex items-center gap-2">
+              <i class="fas fa-[#4a3f44] fa-bolt text-[#e5c1b3]"></i> Quick Operator Shortcuts
+            </span>
+            <div class="flex flex-wrap gap-2 text-xs">
+              <button onclick="window.adminApp.openAddProductModal()" class="bg-[#4a3f44] hover:bg-[#5a4f54] text-white px-3.5 py-2 rounded-xl transition-all shadow-xs flex items-center gap-1.5 font-medium">
+                <i class="fas fa-plus text-[#e5c1b3]"></i> Add Product
+              </button>
+              <button onclick="window.adminApp.openAddCouponModal()" class="bg-white/80 dark:bg-stone-800 text-[#4a3f44] dark:text-white border border-white/60 dark:border-stone-700 px-3.5 py-2 rounded-xl transition-all shadow-xs flex items-center gap-1.5 font-medium">
+                <i class="fas fa-tag"></i> Create Coupon
+              </button>
+              <button onclick="window.adminApp.switchTab('orders')" class="bg-white/80 dark:bg-stone-800 text-[#4a3f44] dark:text-white border border-white/60 dark:border-stone-700 px-3.5 py-2 rounded-xl transition-all shadow-xs flex items-center gap-1.5 font-medium">
+                <i class="fas fa-truck-ramp-box"></i> View Pending Orders
+              </button>
+            </div>
+          </div>
+
+          <!-- Analytics Charts Section -->
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Line Chart: Sales Trend -->
+            <div class="lg:col-span-2 glass-panel p-6 rounded-2xl flex flex-col">
+              <div class="flex items-center justify-between mb-4">
+                <div>
+                  <h3 class="font-serif font-bold text-base text-[#4a3f44] dark:text-white">Revenue & Sales Performance</h3>
+                  <p class="text-[11px] text-[#6d5f65] dark:text-stone-400">Monthly gross sales metrics</p>
+                </div>
+                <span class="text-xs bg-white/60 dark:bg-stone-800 px-3 py-1 rounded-lg border border-white/60 font-semibold text-[#4a3f44] dark:text-stone-300">2026 YTD</span>
+              </div>
+              <div class="h-64 relative w-full">
+                <canvas id="chart-sales-overview"></canvas>
+              </div>
+            </div>
+
+            <!-- Doughnut Chart: Category Share -->
+            <div class="glass-panel p-6 rounded-2xl flex flex-col">
+              <div class="mb-4">
+                <h3 class="font-serif font-bold text-base text-[#4a3f44] dark:text-white">Sales By Category</h3>
+                <p class="text-[11px] text-[#6d5f65] dark:text-stone-400">Revenue contribution per product line</p>
+              </div>
+              <div class="h-64 relative w-full flex items-center justify-center">
+                <canvas id="chart-category-share"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- Low Stock Warning & Recent Activity Grid -->
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <!-- Low Stock Table -->
+            <div class="glass-panel p-6 rounded-2xl">
+              <div class="flex items-center justify-between mb-4">
+                <h3 class="font-serif font-bold text-sm text-[#4a3f44] dark:text-white flex items-center gap-2">
+                  <i class="fas fa-triangle-exclamation text-amber-500"></i> Inventory Alerts (Low Stock)
+                </h3>
+                <button onclick="window.adminApp.switchTab('products')" class="text-xs text-[#4a3f44] dark:text-[#e5c1b3] font-bold hover:underline">Manage All</button>
+              </div>
+              <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs">
+                  <thead>
+                    <tr class="border-b border-stone-200 dark:border-stone-800 text-[10px] uppercase font-bold text-[#6d5f65]">
+                      <th class="pb-2">Product</th>
+                      <th class="pb-2">Category</th>
+                      <th class="pb-2">Stock Left</th>
+                      <th class="pb-2 text-right">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody id="admin-low-stock-body">
+                    <!-- Populated by JS -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Recent Orders Feed -->
+            <div class="glass-panel p-6 rounded-2xl">
+              <div class="flex items-center justify-between mb-4">
+                <h3 class="font-serif font-bold text-sm text-[#4a3f44] dark:text-white flex items-center gap-2">
+                  <i class="fas fa-clock-rotate-left text-[#4a3f44] dark:text-[#e5c1b3]"></i> Recent Store Orders
+                </h3>
+                <button onclick="window.adminApp.switchTab('orders')" class="text-xs text-[#4a3f44] dark:text-[#e5c1b3] font-bold hover:underline">View All Orders</button>
+              </div>
+              <div id="admin-recent-orders-feed" class="space-y-3">
+                <!-- Populated by JS -->
+              </div>
+            </div>
+          </div>
+
+        </section>
+
+        <!-- ========================================== -->
+        <!-- TAB 2: PRODUCTS CATALOG MANAGEMENT         -->
+        <!-- ========================================== -->
+        <section id="tab-products" class="admin-tab-content space-y-6 hidden">
+          <div class="glass-panel p-6 rounded-2xl">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+              <div>
+                <h3 class="font-serif font-bold text-lg text-[#4a3f44] dark:text-white">Products Catalog</h3>
+                <p class="text-xs text-[#6d5f65] dark:text-stone-400">Manage active skincare products, pricing & inventory</p>
+              </div>
+
+              <div class="flex flex-wrap items-center gap-3">
+                <div class="relative w-48">
+                  <input type="text" id="filter-product-search" placeholder="Filter products..." class="w-full bg-white/70 dark:bg-stone-800/80 border border-white/60 dark:border-stone-700 rounded-xl px-3 py-1.5 text-xs outline-none" />
+                </div>
+                <select id="filter-product-category" class="bg-white/70 dark:bg-stone-800/80 border border-white/60 dark:border-stone-700 rounded-xl px-3 py-1.5 text-xs outline-none">
+                  <option value="">All Categories</option>
+                </select>
+                <button onclick="window.adminApp.openAddProductModal()" class="bg-[#4a3f44] hover:bg-[#5a4f54] text-white font-bold text-xs px-4 py-2.5 rounded-xl transition-colors shadow-md flex items-center gap-2">
+                  <i class="fas fa-plus text-[#e5c1b3]"></i> Add New Product
+                </button>
+              </div>
+            </div>
+
+            <div class="overflow-x-auto">
+              <table class="w-full text-left border-collapse">
+                <thead>
+                  <tr class="border-b border-stone-200 dark:border-stone-800 text-[11px] uppercase font-bold text-[#6d5f65] dark:text-stone-400">
+                    <th class="p-3">Product</th>
+                    <th class="p-3">SKU</th>
+                    <th class="p-3">Category</th>
+                    <th class="p-3">Price</th>
+                    <th class="p-3">Stock Qty</th>
+                    <th class="p-3">Status</th>
+                    <th class="p-3 text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="admin-products-table-body">
+                  <!-- Populated by JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- TAB 3: ORDERS MANAGEMENT                   -->
+        <!-- ========================================== -->
+        <section id="tab-orders" class="admin-tab-content space-y-6 hidden">
+          <div class="glass-panel p-6 rounded-2xl">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+              <div>
+                <h3 class="font-serif font-bold text-lg text-[#4a3f44] dark:text-white">Customer Orders Management</h3>
+                <p class="text-xs text-[#6d5f65] dark:text-stone-400">Track, update fulfillment status and print order invoices</p>
+              </div>
+
+              <div class="flex flex-wrap items-center gap-3 text-xs">
+                <input type="text" id="filter-order-search" placeholder="Search order # or customer..." class="bg-white/70 dark:bg-stone-800/80 border border-white/60 dark:border-stone-700 rounded-xl px-3 py-1.5 text-xs outline-none w-48" />
+                <select id="filter-order-status" class="bg-white/70 dark:bg-stone-800/80 border border-white/60 dark:border-stone-700 rounded-xl px-3 py-1.5 text-xs outline-none">
+                  <option value="">All Statuses</option>
+                  <option value="Placed">Placed</option>
+                  <option value="Confirmed">Confirmed</option>
+                  <option value="Processing">Processing</option>
+                  <option value="Packed">Packed</option>
+                  <option value="Shipped">Shipped</option>
+                  <option value="Delivered">Delivered</option>
+                  <option value="Cancelled">Cancelled</option>
+                </select>
+                <button onclick="window.adminApp?.exportOrdersCSV()" class="bg-[#4a3f44] hover:bg-[#5a4f54] text-white font-bold px-3.5 py-1.5 rounded-xl transition-all shadow-xs flex items-center gap-1.5 cursor-pointer">
+                  <i class="fas fa-file-csv text-xs text-[#e5c1b3]"></i> Export CSV
+                </button>
+              </div>
+            </div>
+
+            <div class="overflow-x-auto">
+              <table class="w-full text-left border-collapse">
+                <thead>
+                  <tr class="border-b border-stone-200 dark:border-stone-800 text-[11px] uppercase font-bold text-[#6d5f65] dark:text-stone-400">
+                    <th class="p-3">Order #</th>
+                    <th class="p-3">Customer</th>
+                    <th class="p-3">Items</th>
+                    <th class="p-3">Total Amount</th>
+                    <th class="p-3">Fulfillment Status</th>
+                    <th class="p-3">Date</th>
+                    <th class="p-3 text-right">Invoice & Details</th>
+                  </tr>
+                </thead>
+                <tbody id="admin-orders-table-body">
+                  <!-- Populated by JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- TAB 4: CATEGORIES MANAGEMENT               -->
+        <!-- ========================================== -->
+        <section id="tab-categories" class="admin-tab-content space-y-6 hidden">
+          <div class="glass-panel p-6 rounded-2xl">
+            <div class="flex items-center justify-between mb-6">
+              <div>
+                <h3 class="font-serif font-bold text-lg text-[#4a3f44] dark:text-white">Categories Management</h3>
+                <p class="text-xs text-[#6d5f65] dark:text-stone-400">Organize store product categories & visual banners</p>
+              </div>
+              <button onclick="window.adminApp.openAddCategoryModal()" class="bg-[#4a3f44] hover:bg-[#5a4f54] text-white font-bold text-xs px-4 py-2.5 rounded-xl transition-colors shadow-md flex items-center gap-2">
+                <i class="fas fa-plus text-[#e5c1b3]"></i> Add Category
+              </button>
+            </div>
+
+            <div id="admin-categories-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              <!-- Populated by JS -->
+            </div>
+          </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- TAB 5: DISCOUNTS & COUPONS                 -->
+        <!-- ========================================== -->
+        <section id="tab-coupons" class="admin-tab-content space-y-6 hidden">
+          <div class="glass-panel p-6 rounded-2xl">
+            <div class="flex items-center justify-between mb-6">
+              <div>
+                <h3 class="font-serif font-bold text-lg text-[#4a3f44] dark:text-white">Discounts & Promo Coupons</h3>
+                <p class="text-xs text-[#6d5f65] dark:text-stone-400">Create and manage active store coupon codes</p>
+              </div>
+              <button onclick="window.adminApp.openAddCouponModal()" class="bg-[#4a3f44] hover:bg-[#5a4f54] text-white font-bold text-xs px-4 py-2.5 rounded-xl transition-colors shadow-md flex items-center gap-2">
+                <i class="fas fa-plus text-[#e5c1b3]"></i> Create New Coupon
+              </button>
+            </div>
+
+            <div class="overflow-x-auto">
+              <table class="w-full text-left border-collapse">
+                <thead>
+                  <tr class="border-b border-stone-200 dark:border-stone-800 text-[11px] uppercase font-bold text-[#6d5f65]">
+                    <th class="p-3">Coupon Code</th>
+                    <th class="p-3">Discount Type</th>
+                    <th class="p-3">Value</th>
+                    <th class="p-3">Min Order</th>
+                    <th class="p-3">Status</th>
+                    <th class="p-3 text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="admin-coupons-table-body">
+                  <!-- Populated by JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- TAB 6: SKIN DIAGNOSTICS & CUSTOMER LOGS    -->
+        <!-- ========================================== -->
+        <section id="tab-skin-diagnostics" class="admin-tab-content space-y-6 hidden">
+          <!-- Diagnostics Overview Charts -->
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div class="glass-panel p-6 rounded-2xl lg:col-span-1 flex flex-col justify-between">
+              <div>
+                <h3 class="font-serif font-bold text-base text-[#4a3f44] dark:text-white">AI Diagnostics Summary</h3>
+                <p class="text-xs text-[#6d5f65] dark:text-stone-400 mt-1">Breakdown of customer skin profile scans</p>
+                
+                <div class="mt-6 space-y-3 text-xs">
+                  <div class="flex justify-between items-center p-2.5 bg-white/60 dark:bg-stone-800/60 rounded-xl">
+                    <span class="font-medium text-[#4a3f44] dark:text-stone-200">Total Scans Executed</span>
+                    <strong id="stat-total-scans" class="font-bold text-[#4a3f44] dark:text-white">0</strong>
+                  </div>
+                  <div class="flex justify-between items-center p-2.5 bg-white/60 dark:bg-stone-800/60 rounded-xl">
+                    <span class="font-medium text-[#4a3f44] dark:text-stone-200">Most Common Concern</span>
+                    <strong class="font-bold text-rose-600">Dark Spots / Hyperpigmentation</strong>
+                  </div>
+                  <div class="flex justify-between items-center p-2.5 bg-white/60 dark:bg-stone-800/60 rounded-xl">
+                    <span class="font-medium text-[#4a3f44] dark:text-stone-200">Avg Health Score</span>
+                    <strong class="font-bold text-emerald-600">85 / 100</strong>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="glass-panel p-6 rounded-2xl lg:col-span-2">
+              <h3 class="font-serif font-bold text-base text-[#4a3f44] dark:text-white mb-2">Customer Skin Type Distribution</h3>
+              <div class="h-56 relative">
+                <canvas id="chart-skintype-dist"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- Customer Scans Table -->
+          <div class="glass-panel p-6 rounded-2xl">
+            <h3 class="font-serif font-bold text-lg text-[#4a3f44] dark:text-white mb-4">Customer AI Analysis Records</h3>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left border-collapse text-xs">
+                <thead>
+                  <tr class="border-b border-stone-200 dark:border-stone-800 text-[11px] uppercase font-bold text-[#6d5f65]">
+                    <th class="p-3">Customer</th>
+                    <th class="p-3">Diagnosed Skin Type</th>
+                    <th class="p-3">Primary Concerns</th>
+                    <th class="p-3">Health Score</th>
+                    <th class="p-3">Scan Date</th>
+                    <th class="p-3 text-right">Full Report</th>
+                  </tr>
+                </thead>
+                <tbody id="admin-scans-table-body">
+                  <!-- Populated by JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- TAB 7: CUSTOMERS ACCOUNTS                  -->
+        <!-- ========================================== -->
+        <section id="tab-customers" class="admin-tab-content space-y-6 hidden">
+          <div class="glass-panel p-6 rounded-2xl">
+            <div class="flex items-center justify-between mb-6">
+              <div>
+                <h3 class="font-serif font-bold text-lg text-[#4a3f44] dark:text-white">Registered Customer Accounts</h3>
+                <p class="text-xs text-[#6d5f65] dark:text-stone-400">View customer lifetime spending & account status</p>
+              </div>
+            </div>
+
+            <div class="overflow-x-auto">
+              <table class="w-full text-left border-collapse text-xs">
+                <thead>
+                  <tr class="border-b border-stone-200 dark:border-stone-800 text-[11px] uppercase font-bold text-[#6d5f65]">
+                    <th class="p-3">Customer Name</th>
+                    <th class="p-3">Email</th>
+                    <th class="p-3">Orders Count</th>
+                    <th class="p-3">Total Spent</th>
+                    <th class="p-3">Account Status</th>
+                    <th class="p-3 text-right">Toggle Status</th>
+                  </tr>
+                </thead>
+                <tbody id="admin-customers-table-body">
+                  <!-- Populated by JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- TAB 8: REVIEWS MODERATION                  -->
+        <!-- ========================================== -->
+        <section id="tab-reviews" class="admin-tab-content space-y-6 hidden">
+          <div class="glass-panel p-6 rounded-2xl">
+            <div class="flex items-center justify-between mb-6">
+              <div>
+                <h3 class="font-serif font-bold text-lg text-[#4a3f44] dark:text-white">Customer Reviews Moderation</h3>
+                <p class="text-xs text-[#6d5f65] dark:text-stone-400">Approve or remove product feedback</p>
+              </div>
+            </div>
+
+            <div class="space-y-4" id="admin-reviews-list">
+              <!-- Populated by JS -->
+            </div>
+          </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- TAB 9: STORE SETTINGS & OWNER PROFILE      -->
+        <!-- ========================================== -->
+        <section id="tab-settings" class="admin-tab-content space-y-6 hidden">
+          
+          <!-- Header Banner -->
+          <div class="glass-panel p-6 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div>
+              <span class="text-[10px] font-bold uppercase tracking-widest text-[#e5c1b3]">Administration & Store Control</span>
+              <h2 class="font-serif text-xl font-bold text-[#4a3f44] dark:text-white mt-0.5">Store Settings & Owner Profile</h2>
+              <p class="text-xs text-[#6d5f65] dark:text-stone-400">Manage business preferences, owner credentials, and AI engine guidelines</p>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 text-xs font-bold border border-emerald-200 dark:border-emerald-800">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span>Live Cloud DB Connected</span>
+              </span>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            
+            <!-- Card 1: Store Owner & Administrator Account -->
+            <div class="glass-panel p-6 rounded-2xl space-y-4">
+              <div class="flex items-center justify-between border-b border-stone-200/60 dark:border-stone-800 pb-3">
+                <h3 class="font-serif font-bold text-sm text-[#4a3f44] dark:text-white flex items-center gap-2">
+                  <i class="fas fa-user-shield text-[#e5c1b3]"></i> Owner Profile & Credentials
+                </h3>
+                <span class="text-[10px] uppercase font-bold bg-[#e5c1b3]/30 text-[#4a3f44] dark:text-[#e5c1b3] px-2 py-0.5 rounded-md">Primary Admin</span>
+              </div>
+
+              <form id="form-owner-profile" class="space-y-3.5 text-xs">
+                <div>
+                  <label class="block font-bold text-stone-700 dark:text-stone-300 mb-1">Owner Display Name</label>
+                  <input type="text" id="owner-profile-name" required placeholder="Store Owner" class="w-full p-2.5 rounded-xl border bg-white/70 dark:bg-stone-800 border-white/60 dark:border-stone-700 text-stone-800 dark:text-white outline-none focus:ring-2 focus:ring-[#e5c1b3]" />
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                  <div>
+                    <label class="block font-bold text-stone-700 dark:text-stone-300 mb-1">Admin Username</label>
+                    <input type="text" id="owner-profile-username" required placeholder="admin" class="w-full p-2.5 rounded-xl border bg-white/70 dark:bg-stone-800 border-white/60 dark:border-stone-700 text-stone-800 dark:text-white outline-none focus:ring-2 focus:ring-[#e5c1b3]" />
+                  </div>
+                  <div>
+                    <label class="block font-bold text-stone-700 dark:text-stone-300 mb-1">Phone Number</label>
+                    <input type="text" id="owner-profile-phone" placeholder="+91 98765 43210" class="w-full p-2.5 rounded-xl border bg-white/70 dark:bg-stone-800 border-white/60 dark:border-stone-700 text-stone-800 dark:text-white outline-none focus:ring-2 focus:ring-[#e5c1b3]" />
+                  </div>
+                </div>
+
+                <div>
+                  <label class="block font-bold text-stone-700 dark:text-stone-300 mb-1">Owner Email Address</label>
+                  <input type="email" id="owner-profile-email" required placeholder="admin@dream.com" class="w-full p-2.5 rounded-xl border bg-white/70 dark:bg-stone-800 border-white/60 dark:border-stone-700 text-stone-800 dark:text-white outline-none focus:ring-2 focus:ring-[#e5c1b3]" />
+                </div>
+
+                <div>
+                  <label class="block font-bold text-stone-700 dark:text-stone-300 mb-1">New Password <span class="text-[10px] font-normal text-stone-400">(leave blank to keep current)</span></label>
+                  <div class="relative">
+                    <input type="password" id="owner-profile-password" placeholder="••••••••" class="w-full p-2.5 pr-9 rounded-xl border bg-white/70 dark:bg-stone-800 border-white/60 dark:border-stone-700 text-stone-800 dark:text-white outline-none focus:ring-2 focus:ring-[#e5c1b3]" />
+                    <button type="button" onclick="const p = document.getElementById('owner-profile-password'); p.type = p.type === 'password' ? 'text' : 'password';" class="absolute right-3 top-2.5 text-stone-400 hover:text-stone-600 dark:hover:text-stone-200">
+                      <i class="fas fa-eye text-xs"></i>
+                    </button>
+                  </div>
+                </div>
+
+                <div>
+                  <label class="block font-bold text-stone-700 dark:text-stone-300 mb-1">Avatar Image URL</label>
+                  <input type="url" id="owner-profile-avatar" placeholder="https://..." class="w-full p-2.5 rounded-xl border bg-white/70 dark:bg-stone-800 border-white/60 dark:border-stone-700 text-stone-800 dark:text-white outline-none focus:ring-2 focus:ring-[#e5c1b3]" />
+                </div>
+
+                <div class="pt-2">
+                  <button type="submit" id="btn-save-owner-profile" class="w-full bg-[#4a3f44] hover:bg-[#5a4f54] text-white font-bold py-2.5 px-4 rounded-xl text-xs uppercase tracking-wider transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer">
+                    <i class="fas fa-save text-[#e5c1b3]"></i>
+                    <span>Save Owner Profile</span>
+                  </button>
+                </div>
+              </form>
+            </div>
+
+            <!-- Card 2: Store Configuration & Financial Preferences -->
+            <div class="glass-panel p-6 rounded-2xl space-y-4">
+              <div class="flex items-center justify-between border-b border-stone-200/60 dark:border-stone-800 pb-3">
+                <h3 class="font-serif font-bold text-sm text-[#4a3f44] dark:text-white flex items-center gap-2">
+                  <i class="fas fa-store text-[#e5c1b3]"></i> Store Profile & Operations
+                </h3>
+                <span class="text-[10px] uppercase font-bold bg-amber-500/10 text-amber-700 dark:text-amber-300 px-2 py-0.5 rounded-md">Live Storefront</span>
+              </div>
+
+              <form id="form-store-settings" class="space-y-3.5 text-xs">
+                <div>
+                  <label class="block font-bold text-stone-700 dark:text-stone-300 mb-1">Store Brand Name</label>
+                  <input type="text" id="setting-store-name" required placeholder="DREAM Skincare" class="w-full p-2.5 rounded-xl border bg-white/70 dark:bg-stone-800 border-white/60 dark:border-stone-700 text-stone-800 dark:text-white outline-none focus:ring-2 focus:ring-[#e5c1b3]" />
+                </div>
+
+                <div>
+                  <label class="block font-bold text-stone-700 dark:text-stone-300 mb-1">Store Slogan / Tagline</label>
+                  <input type="text" id="setting-tagline" placeholder="Science-Backed Botanical Formulations" class="w-full p-2.5 rounded-xl border bg-white/70 dark:bg-stone-800 border-white/60 dark:border-stone-700 text-stone-800 dark:text-white outline-none focus:ring-2 focus:ring-[#e5c1b3]" />
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                  <div>
+                    <label class="block font-bold text-stone-700 dark:text-stone-300 mb-1">Currency Code & Symbol</label>
+                    <div class="flex gap-1.5">
+                      <input type="text" id="setting-currency-code" value="INR" placeholder="INR" class="w-16 p-2.5 rounded-xl border bg-white/70 dark:bg-stone-800 border-white/60 dark:border-stone-700 text-stone-800 dark:text-white font-mono font-bold text-center outline-none focus:ring-2 focus:ring-[#e5c1b3]" />
+                      <input type="text" id="setting-currency-symbol" value="₹" placeholder="₹" class="flex-1 p-2.5 rounded-xl border bg-white/70 dark:bg-stone-800 border-white/60 dark:border-stone-700 text-stone-800 dark:text-white font-bold text-center outline-none focus:ring-2 focus:ring-[#e5c1b3]" />
+                    </div>
+                  </div>
+                  <div>
+                    <label class="block font-bold text-stone-700 dark:text-stone-300 mb-1">Tax Rate (%)</label>
+                    <input type="number" step="0.1" id="setting-tax-rate" value="8.0" class="w-full p-2.5 rounded-xl border bg-white/70 dark:bg-stone-800 border-white/60 dark:border-stone-700 text-stone-800 dark:text-white outline-none focus:ring-2 focus:ring-[#e5c1b3]" />
+                  </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                  <div>
+                    <label class="block font-bold text-stone-700 dark:text-stone-300 mb-1">Free Shipping Min (₹)</label>
+                    <input type="number" step="0.01" id="setting-free-shipping-threshold" value="50.00" class="w-full p-2.5 rounded-xl border bg-white/70 dark:bg-stone-800 border-white/60 dark:border-stone-700 text-stone-800 dark:text-white outline-none focus:ring-2 focus:ring-[#e5c1b3]" />
+                  </div>
+                  <div>
+                    <label class="block font-bold text-stone-700 dark:text-stone-300 mb-1">Standard Shipping Fee (₹)</label>
+                    <input type="number" step="0.01" id="setting-standard-shipping-fee" value="5.99" class="w-full p-2.5 rounded-xl border bg-white/70 dark:bg-stone-800 border-white/60 dark:border-stone-700 text-stone-800 dark:text-white outline-none focus:ring-2 focus:ring-[#e5c1b3]" />
+                  </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                  <div>
+                    <label class="block font-bold text-stone-700 dark:text-stone-300 mb-1">Support Email</label>
+                    <input type="email" id="setting-support-email" value="support@dream.com" class="w-full p-2.5 rounded-xl border bg-white/70 dark:bg-stone-800 border-white/60 dark:border-stone-700 text-stone-800 dark:text-white outline-none focus:ring-2 focus:ring-[#e5c1b3]" />
+                  </div>
+                  <div>
+                    <label class="block font-bold text-stone-700 dark:text-stone-300 mb-1">Support Phone</label>
+                    <input type="text" id="setting-support-phone" value="+91 (800) 456-7890" class="w-full p-2.5 rounded-xl border bg-white/70 dark:bg-stone-800 border-white/60 dark:border-stone-700 text-stone-800 dark:text-white outline-none focus:ring-2 focus:ring-[#e5c1b3]" />
+                  </div>
+                </div>
+
+                <div>
+                  <label class="block font-bold text-stone-700 dark:text-stone-300 mb-1">HQ Storefront Physical Address</label>
+                  <input type="text" id="setting-store-address" value="104 Bloom Plaza, Luxury Beauty District, Mumbai, MH 400001" class="w-full p-2.5 rounded-xl border bg-white/70 dark:bg-stone-800 border-white/60 dark:border-stone-700 text-stone-800 dark:text-white outline-none focus:ring-2 focus:ring-[#e5c1b3]" />
+                </div>
+
+                <div>
+                  <label class="block font-bold text-stone-700 dark:text-stone-300 mb-1">Storefront Announcement Banner</label>
+                  <input type="text" id="setting-banner-announcement" value="Complimentary luxury sample bottle with every first order over ₹500 • Free express shipping" class="w-full p-2.5 rounded-xl border bg-white/70 dark:bg-stone-800 border-white/60 dark:border-stone-700 text-stone-800 dark:text-white outline-none focus:ring-2 focus:ring-[#e5c1b3]" />
+                </div>
+
+                <div class="pt-2">
+                  <button type="submit" id="btn-save-store-settings" class="w-full bg-[#4a3f44] hover:bg-[#5a4f54] text-white font-bold py-2.5 px-4 rounded-xl text-xs uppercase tracking-wider transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer">
+                    <i class="fas fa-check-circle text-[#e5c1b3]"></i>
+                    <span>Save Store Settings</span>
+                  </button>
+                </div>
+              </form>
+            </div>
+
+            <!-- Card 3: BeautyBot AI Engine Configuration -->
+            <div class="glass-panel p-6 rounded-2xl space-y-4">
+              <div class="flex items-center justify-between border-b border-stone-200/60 dark:border-stone-800 pb-3">
+                <h3 class="font-serif font-bold text-sm text-[#4a3f44] dark:text-white flex items-center gap-2">
+                  <i class="fas fa-robot text-[#e5c1b3]"></i> BeautyBot AI Advisor Engine
+                </h3>
+                <span class="text-[10px] uppercase font-bold bg-purple-500/10 text-purple-700 dark:text-purple-300 px-2 py-0.5 rounded-md">Gemini 3.6 Flash</span>
+              </div>
+
+              <p class="text-xs text-[#6d5f65] dark:text-stone-400">Configure the AI skincare advisor's behavioral persona and knowledge base instructions.</p>
+
+              <form id="form-ai-settings" class="space-y-3.5 text-xs">
+                <div>
+                  <label class="block font-bold text-stone-700 dark:text-stone-300 mb-1">AI Assistant Persona Name</label>
+                  <input type="text" id="setting-ai-bot-name" value="BeautyBot — Expert Skincare Advisor" required class="w-full p-2.5 rounded-xl border bg-white/70 dark:bg-stone-800 border-white/60 dark:border-stone-700 text-stone-800 dark:text-white outline-none focus:ring-2 focus:ring-[#e5c1b3]" />
+                </div>
+
+                <div>
+                  <label class="block font-bold text-stone-700 dark:text-stone-300 mb-1">System Instructions Guidelines</label>
+                  <textarea id="setting-ai-system-prompt" rows="7" required class="w-full p-2.5 rounded-xl border bg-white/70 dark:bg-stone-800 border-white/60 dark:border-stone-700 text-stone-800 dark:text-white text-xs leading-relaxed outline-none focus:ring-2 focus:ring-[#e5c1b3]">Provide knowledgeable, gentle cosmetic skincare advice, routine suggestions, ingredient breakdowns, and product recommendations from the catalog. DO NOT provide medical diagnoses.</textarea>
+                </div>
+
+                <div class="p-3 rounded-xl bg-purple-50/50 dark:bg-purple-950/30 border border-purple-200/50 dark:border-purple-800/40 text-[11px] text-purple-900 dark:text-purple-200 space-y-1">
+                  <div class="font-bold flex items-center gap-1.5"><i class="fas fa-sparkles text-purple-500"></i> AI Catalog Integration</div>
+                  <p class="text-stone-500 dark:text-stone-400 text-[10px]">BeautyBot automatically accesses active products, categories, sub-categories, skin types, and ingredient records when responding.</p>
+                </div>
+
+                <div class="pt-2">
+                  <button type="submit" id="btn-save-ai-settings" class="w-full bg-[#4a3f44] hover:bg-[#5a4f54] text-white font-bold py-2.5 px-4 rounded-xl text-xs uppercase tracking-wider transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer">
+                    <i class="fas fa-wand-magic-sparkles text-[#e5c1b3]"></i>
+                    <span>Update AI Prompt</span>
+                  </button>
+                </div>
+              </form>
+            </div>
+
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MODALS                                     -->
+  <!-- ========================================== -->
+
+  <!-- Add / Edit Product Modal -->
+  <div id="add-product-modal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-md hidden items-center justify-center p-4">
+    <div class="bg-white/95 dark:bg-stone-900/95 backdrop-blur-2xl rounded-3xl max-w-2xl w-full p-6 sm:p-8 relative shadow-2xl border border-white/60 dark:border-stone-800 max-h-[90vh] overflow-y-auto">
+      <button type="button" onclick="window.adminApp?.closeProductModal()" class="absolute top-5 right-5 text-stone-400 hover:text-stone-900 dark:hover:text-white text-lg"><i class="fas fa-times"></i></button>
+
+      <div class="flex items-center gap-3 mb-4">
+        <div class="w-10 h-10 rounded-2xl bg-[#4a3f44]/10 dark:bg-stone-800 text-[#4a3f44] dark:text-[#e5c1b3] flex items-center justify-center text-lg shrink-0">
+          <i class="fas fa-box-open"></i>
+        </div>
+        <div>
+          <h3 id="modal-product-title" class="font-serif font-bold text-lg text-[#4a3f44] dark:text-white leading-tight">Add New Skincare Product</h3>
+          <p class="text-xs text-[#6d5f65] dark:text-stone-400">Configure product specifications, pricing, stock and visual assets</p>
+        </div>
+      </div>
+
+      <form id="form-add-product" class="space-y-4 text-xs">
+        <input type="hidden" name="id" id="prod-form-id" />
+        
+        <div>
+          <label class="block font-bold mb-1 text-stone-700 dark:text-stone-300">Product Title / Name *</label>
+          <input type="text" name="name" id="prod-form-name" required placeholder="e.g. Pure Botanical Glow Serum" class="w-full p-2.5 rounded-xl border bg-white/70 dark:bg-stone-800 border-stone-300 dark:border-stone-700 outline-none font-medium" />
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div>
+            <label class="block font-bold mb-1 text-stone-700 dark:text-stone-300">Category *</label>
+            <select name="category_id" id="prod-form-category" onchange="window.adminApp?.onCategoryChange(this.value)" required class="w-full p-2.5 rounded-xl border bg-white/70 dark:bg-stone-800 border-stone-300 dark:border-stone-700 outline-none text-xs font-semibold cursor-pointer">
+              <!-- Populated by JS -->
+            </select>
+          </div>
+          <div>
+            <label class="block font-bold mb-1 text-stone-700 dark:text-stone-300 flex items-center justify-between">
+              <span>Sub-Category</span>
+              <span id="prod-form-subcat-count" class="text-[10px] text-stone-400 font-normal"></span>
+            </label>
+            <select name="sub_category" id="prod-form-subcategory" onchange="window.adminApp?.onSubCategoryChange(this.value)" class="w-full p-2.5 rounded-xl border bg-white/70 dark:bg-stone-800 border-stone-300 dark:border-stone-700 outline-none text-xs font-semibold cursor-pointer">
+              <!-- Dynamically populated -->
+            </select>
+          </div>
+          <div>
+            <label class="block font-bold mb-1 text-stone-700 dark:text-stone-300">Brand</label>
+            <select name="brand_id" id="prod-form-brand" class="w-full p-2.5 rounded-xl border bg-white/70 dark:bg-stone-800 border-stone-300 dark:border-stone-700 outline-none text-xs font-semibold cursor-pointer">
+              <option value="1">GlowLab</option>
+              <option value="2">Botanical Lux</option>
+              <option value="3">ZenSkin</option>
+              <option value="4">Aura Derm</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Selected Subcategory Photo & Details Badge (dynamic) -->
+        <div id="prod-form-subcat-preview" class="hidden items-center gap-2.5 p-2.5 bg-stone-100/80 dark:bg-stone-800/80 rounded-xl border border-stone-200 dark:border-stone-700">
+          <img id="prod-form-subcat-img" src="" class="w-9 h-9 rounded-lg object-cover border border-stone-300 dark:border-stone-700 shrink-0" />
+          <div class="min-w-0 flex-1 text-[11px]">
+            <p class="font-bold text-[#4a3f44] dark:text-[#e5c1b3] flex items-center gap-1.5">
+              <i class="fas fa-tag text-[9px]"></i> <span id="prod-form-subcat-label"></span>
+            </p>
+            <p id="prod-form-subcat-desc" class="text-[10px] text-stone-500 truncate"></p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div>
+            <label class="block font-bold mb-1 text-stone-700 dark:text-stone-300">Original Price (₹) *</label>
+            <input type="number" step="0.01" min="0" name="original_price" id="prod-form-price" required placeholder="899.00" class="w-full p-2.5 rounded-xl border bg-white/70 dark:bg-stone-800 border-stone-300 dark:border-stone-700 outline-none font-semibold" />
+          </div>
+          <div>
+            <label class="block font-bold mb-1 text-stone-700 dark:text-stone-300">Discount Price (₹)</label>
+            <input type="number" step="0.01" min="0" name="discounted_price" id="prod-form-discount" class="w-full p-2.5 rounded-xl border bg-white/70 dark:bg-stone-800 border-stone-300 dark:border-stone-700 outline-none font-semibold" placeholder="Optional" />
+          </div>
+          <div>
+            <label class="block font-bold mb-1 text-stone-700 dark:text-stone-300">Stock Quantity *</label>
+            <input type="number" min="0" name="stock_qty" id="prod-form-stock" value="25" required class="w-full p-2.5 rounded-xl border bg-white/70 dark:bg-stone-800 border-stone-300 dark:border-stone-700 outline-none font-semibold" />
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-bold mb-1 text-stone-700 dark:text-stone-300">Product Photo / Image *</label>
+          <div class="space-y-2">
+            <div class="flex items-center gap-2">
+              <input type="url" name="main_image" id="prod-form-image" value="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=800" required placeholder="https://..." oninput="document.getElementById('prod-form-image-preview').src = this.value" class="w-full p-2.5 rounded-xl border bg-white/70 dark:bg-stone-800 border-stone-300 dark:border-stone-700 outline-none font-mono text-[11px]" />
+              <label class="cursor-pointer bg-stone-100 dark:bg-stone-800 hover:bg-stone-200 border border-stone-300 dark:border-stone-700 px-3 py-2.5 rounded-xl font-bold text-[11px] whitespace-nowrap flex items-center gap-1.5 transition-colors">
+                <i class="fas fa-cloud-upload-alt"></i> Upload
+                <input type="file" id="prod-form-image-file" accept="image/*" class="hidden" onchange="window.adminApp?.handleProductImageUpload(event)" />
+              </label>
+            </div>
+            <!-- Image Preview -->
+            <div class="flex items-center gap-3 p-2 bg-stone-50 dark:bg-stone-800/50 rounded-xl border border-stone-200/60 dark:border-stone-700/60">
+              <img id="prod-form-image-preview" src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=800" alt="Product Preview" class="w-12 h-12 rounded-lg object-cover border border-stone-300 dark:border-stone-700 shrink-0" onerror="this.src='https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=800'" />
+              <div class="text-[10px] text-[#6d5f65] dark:text-stone-400">
+                <p class="font-bold text-[#4a3f44] dark:text-white">Image Preview</p>
+                <p>This image will be displayed on the storefront catalog cards and detail pages.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-bold mb-1 text-stone-700 dark:text-stone-300">Description</label>
+          <textarea name="description" id="prod-form-desc" rows="2" placeholder="Product overview, benefits and formulation details..." class="w-full p-2.5 rounded-xl border bg-white/70 dark:bg-stone-800 border-stone-300 dark:border-stone-700 outline-none"></textarea>
+        </div>
+
+        <div>
+          <label class="block font-bold mb-1 text-stone-700 dark:text-stone-300">Key Ingredients</label>
+          <input type="text" name="ingredients" id="prod-form-ingredients" placeholder="e.g. Hyaluronic Acid, Niacinamide 10%, Centella Asiatica" class="w-full p-2.5 rounded-xl border bg-white/70 dark:bg-stone-800 border-stone-300 dark:border-stone-700 outline-none" />
+        </div>
+
+        <div class="grid grid-cols-2 gap-3 pt-2">
+          <label class="flex items-center gap-2 cursor-pointer font-semibold text-stone-700 dark:text-stone-300">
+            <input type="checkbox" name="is_featured" id="prod-form-featured" class="w-4 h-4 accent-[#4a3f44]" />
+            <span>Featured Product</span>
+          </label>
+          <label class="flex items-center gap-2 cursor-pointer font-semibold text-stone-700 dark:text-stone-300">
+            <input type="checkbox" name="is_bestseller" id="prod-form-bestseller" class="w-4 h-4 accent-[#4a3f44]" />
+            <span>Bestseller Badge</span>
+          </label>
+        </div>
+
+        <div class="flex items-center gap-3 pt-2">
+          <button type="button" onclick="window.adminApp?.closeProductModal()" class="w-1/3 border border-stone-300 dark:border-stone-700 hover:bg-stone-100 dark:hover:bg-stone-800 text-stone-700 dark:text-stone-300 font-bold py-3 rounded-xl transition-colors uppercase tracking-wider text-xs">Cancel</button>
+          <button type="submit" id="prod-form-submit-btn" class="w-2/3 bg-[#4a3f44] hover:bg-[#5a4f54] text-white font-bold py-3 rounded-xl transition-colors uppercase tracking-wider text-xs shadow-md flex items-center justify-center gap-2 cursor-pointer">
+            <i class="fas fa-plus"></i> Save Product Catalog Item
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Add Category Modal -->
+  <div id="add-category-modal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-md hidden items-center justify-center p-4">
+    <div class="bg-white/90 dark:bg-stone-900/90 backdrop-blur-2xl rounded-3xl max-w-md w-full p-6 relative shadow-2xl border border-white/60 dark:border-stone-800">
+      <button onclick="document.getElementById('add-category-modal').classList.add('hidden')" class="absolute top-5 right-5 text-stone-400 hover:text-stone-900 text-lg"><i class="fas fa-times"></i></button>
+
+      <h3 class="font-serif font-bold text-lg text-[#4a3f44] dark:text-white mb-4">Add Product Category</h3>
+
+      <form id="form-add-category" class="space-y-4 text-xs">
+        <div>
+          <label class="block font-bold mb-1">Category Name *</label>
+          <input type="text" name="name" required class="w-full p-2.5 rounded-xl border bg-white/70 dark:bg-stone-800" />
+        </div>
+        <div>
+          <label class="block font-bold mb-1">Banner Image URL</label>
+          <input type="url" name="image_url" value="https://images.unsplash.com/photo-1556228720-195a672e8a03?w=400" class="w-full p-2.5 rounded-xl border bg-white/70 dark:bg-stone-800" />
+        </div>
+        <div>
+          <label class="block font-bold mb-1">Description</label>
+          <textarea name="description" rows="2" class="w-full p-2.5 rounded-xl border bg-white/70 dark:bg-stone-800"></textarea>
+        </div>
+        <button type="submit" class="w-full bg-[#4a3f44] hover:bg-[#5a4f54] text-white font-bold py-3 rounded-xl transition-colors text-xs uppercase tracking-wider">Save Category</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Add Sub-Category Modal -->
+  <div id="add-subcategory-modal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-md hidden items-center justify-center p-4">
+    <div class="bg-white/90 dark:bg-stone-900/90 backdrop-blur-2xl rounded-3xl max-w-md w-full p-6 relative shadow-2xl border border-white/60 dark:border-stone-800">
+      <button onclick="document.getElementById('add-subcategory-modal').classList.add('hidden')" class="absolute top-5 right-5 text-stone-400 hover:text-stone-900 text-lg"><i class="fas fa-times"></i></button>
+
+      <div class="flex items-center gap-2.5 mb-1">
+        <div class="w-8 h-8 rounded-xl bg-[#4a3f44]/10 dark:bg-stone-800 flex items-center justify-center text-[#4a3f44] dark:text-[#e5c1b3]">
+          <i class="fas fa-layer-group text-sm"></i>
+        </div>
+        <div>
+          <h3 class="font-serif font-bold text-lg text-[#4a3f44] dark:text-white leading-none">Add Sub-Category</h3>
+          <p id="add-subcat-parent-name" class="text-[11px] text-[#6d5f65] dark:text-stone-400 mt-0.5">Under Parent Category</p>
+        </div>
+      </div>
+
+      <form id="form-add-subcategory" class="space-y-3.5 text-xs mt-4">
+        <input type="hidden" id="subcat-parent-id" name="category_id" />
+        
+        <div>
+          <label class="block font-bold mb-1">Sub-Category Name *</label>
+          <input type="text" id="subcat-name-input" name="name" placeholder="e.g. Vitamin C Serums, Gel Cleansers" required class="w-full p-2.5 rounded-xl border bg-white/70 dark:bg-stone-800 border-stone-300 dark:border-stone-700 outline-none" />
+        </div>
+
+        <div>
+          <label class="block font-bold mb-1">Photo / Image URL *</label>
+          <div class="space-y-2">
+            <div class="flex items-center gap-2">
+              <input type="url" id="subcat-image-input" name="image_url" placeholder="https://images.unsplash.com/..." value="https://images.unsplash.com/photo-1556228720-195a672e8a03?w=400" required class="w-full p-2.5 rounded-xl border bg-white/70 dark:bg-stone-800 border-stone-300 dark:border-stone-700 outline-none text-[11px]" oninput="document.getElementById('subcat-preview-img').src = this.value" />
+              <label class="cursor-pointer bg-stone-100 dark:bg-stone-800 hover:bg-stone-200 border border-stone-300 dark:border-stone-700 px-3 py-2.5 rounded-xl font-bold text-[11px] whitespace-nowrap flex items-center gap-1.5 transition-colors">
+                <i class="fas fa-cloud-upload-alt"></i> Upload
+                <input type="file" id="subcat-image-file" accept="image/*" class="hidden" onchange="window.adminApp.handleSubcatImageUpload(event)" />
+              </label>
+            </div>
+            <!-- Photo Preview -->
+            <div class="flex items-center gap-3 p-2 bg-stone-50 dark:bg-stone-800/50 rounded-xl border border-stone-200/60 dark:border-stone-700/60">
+              <img id="subcat-preview-img" src="https://images.unsplash.com/photo-1556228720-195a672e8a03?w=400" alt="Subcategory Photo" class="w-12 h-12 rounded-lg object-cover border border-stone-300 dark:border-stone-700 shadow-2xs" onerror="this.src='https://images.unsplash.com/photo-1556228720-195a672e8a03?w=400'" />
+              <div class="text-[10px] text-[#6d5f65] dark:text-stone-400">
+                <p class="font-bold text-[#4a3f44] dark:text-white">Photo Preview</p>
+                <p>This image will be displayed on the storefront sub-category cards and filter pills.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-bold mb-1">Short Description (Optional)</label>
+          <input type="text" id="subcat-desc-input" name="description" placeholder="e.g. Clarifying and purifying daily formulas" class="w-full p-2.5 rounded-xl border bg-white/70 dark:bg-stone-800 border-stone-300 dark:border-stone-700 outline-none" />
+        </div>
+
+        <div>
+          <label class="block font-bold mb-1">URL Slug (Optional)</label>
+          <input type="text" id="subcat-slug-input" name="slug" placeholder="e.g. vitamin-c-serums" class="w-full p-2.5 rounded-xl border bg-white/70 dark:bg-stone-800 border-stone-300 dark:border-stone-700 outline-none" />
+        </div>
+
+        <button type="submit" class="w-full bg-[#4a3f44] hover:bg-[#5a4f54] text-white font-bold py-3 rounded-xl transition-colors text-xs uppercase tracking-wider shadow-md flex items-center justify-center gap-2 mt-2">
+          <i class="fas fa-plus"></i> Save Sub-Category with Photo
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Add Coupon Modal -->
+  <div id="add-coupon-modal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-md hidden items-center justify-center p-4">
+    <div class="bg-white/90 dark:bg-stone-900/90 backdrop-blur-2xl rounded-3xl max-w-md w-full p-6 relative shadow-2xl border border-white/60 dark:border-stone-800">
+      <button onclick="document.getElementById('add-coupon-modal').classList.add('hidden')" class="absolute top-5 right-5 text-stone-400 hover:text-stone-900 text-lg"><i class="fas fa-times"></i></button>
+
+      <h3 class="font-serif font-bold text-lg text-[#4a3f44] dark:text-white mb-4">Create Promo Coupon</h3>
+
+      <form id="form-add-coupon" class="space-y-4 text-xs">
+        <div>
+          <label class="block font-bold mb-1">Coupon Code (Uppercase) *</label>
+          <input type="text" name="code" placeholder="e.g. GLOW25" required class="w-full p-2.5 rounded-xl border bg-white/70 dark:bg-stone-800 uppercase" />
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold mb-1">Discount Type</label>
+            <select name="discount_type" class="w-full p-2.5 rounded-xl border bg-white/70 dark:bg-stone-800">
+              <option value="percentage">Percentage (%)</option>
+              <option value="fixed">Fixed Amount ($)</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-bold mb-1">Value *</label>
+            <input type="number" step="0.01" name="discount_value" required placeholder="e.g. 20" class="w-full p-2.5 rounded-xl border bg-white/70 dark:bg-stone-800" />
+          </div>
+        </div>
+        <div>
+          <label class="block font-bold mb-1">Minimum Order Amount ($)</label>
+          <input type="number" step="0.01" name="min_order_amount" value="0" class="w-full p-2.5 rounded-xl border bg-white/70 dark:bg-stone-800" />
+        </div>
+        <button type="submit" class="w-full bg-[#4a3f44] hover:bg-[#5a4f54] text-white font-bold py-3 rounded-xl transition-colors text-xs uppercase tracking-wider">Generate Coupon</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Printable Invoice & Order Modal -->
+  <div id="order-invoice-modal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-md hidden items-center justify-center p-4">
+    <div class="bg-white dark:bg-stone-900 text-[#2d2a2a] dark:text-stone-100 rounded-3xl max-w-2xl w-full p-6 sm:p-8 relative shadow-2xl border border-white/60 dark:border-stone-800 max-h-[90vh] overflow-y-auto">
+      <button onclick="document.getElementById('order-invoice-modal').classList.add('hidden')" class="absolute top-5 right-5 text-stone-400 hover:text-stone-900 dark:hover:text-white text-lg no-print print:hidden"><i class="fas fa-times"></i></button>
+
+      <div id="invoice-modal-content">
+        <!-- Populated dynamically by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Custom Confirmation Modal (Replaces blocked window.confirm) -->
+  <div id="admin-confirm-modal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-md hidden items-center justify-center p-4">
+    <div class="bg-white/95 dark:bg-stone-900/95 backdrop-blur-2xl text-[#2d2a2a] dark:text-stone-100 rounded-3xl max-w-md w-full p-6 sm:p-7 relative shadow-2xl border border-white/60 dark:border-stone-800 animate-in fade-in zoom-in duration-200">
+      <button id="confirm-modal-close-btn" class="absolute top-5 right-5 text-stone-400 hover:text-stone-900 dark:hover:text-white text-lg">
+        <i class="fas fa-times"></i>
+      </button>
+
+      <div class="flex items-start gap-4 mb-4">
+        <div id="confirm-modal-icon-container" class="w-12 h-12 rounded-2xl bg-rose-100 dark:bg-rose-950/50 text-rose-600 dark:text-rose-400 flex items-center justify-center text-xl shrink-0">
+          <i id="confirm-modal-icon" class="fas fa-trash-alt"></i>
+        </div>
+        <div class="min-w-0 flex-1 pt-0.5">
+          <h3 id="confirm-modal-title" class="font-serif font-bold text-lg text-[#4a3f44] dark:text-white leading-tight">Confirm Deletion</h3>
+          <p id="confirm-modal-message" class="text-xs text-[#6d5f65] dark:text-stone-300 mt-1.5 leading-relaxed">
+            Are you sure you want to proceed with this action? This cannot be undone.
+          </p>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-end gap-3 mt-6 pt-4 border-t border-stone-200/60 dark:border-stone-800">
+        <button id="confirm-modal-cancel-btn" type="button" class="px-4 py-2.5 rounded-xl border border-stone-300 dark:border-stone-700 hover:bg-stone-100 dark:hover:bg-stone-800 text-stone-700 dark:text-stone-300 font-bold text-xs transition-colors cursor-pointer">
+          Cancel
+        </button>
+        <button id="confirm-modal-action-btn" type="button" class="px-5 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs shadow-md transition-all flex items-center gap-2 cursor-pointer">
+          <i class="fas fa-trash text-xs"></i>
+          <span id="confirm-modal-action-text">Delete Item</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/assets/js/admin.js"></script>
+</body>
+</html>
