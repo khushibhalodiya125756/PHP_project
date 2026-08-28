@@ -1,0 +1,1357 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DREAM — Advanced AI Cosmetic & Skincare E-Commerce</title>
+  <link rel="icon" type="image/svg+xml" href="/assets/images/logo-icon.svg" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: ['class', '[data-theme="dark"]'],
+      theme: {
+        extend: {
+          colors: {
+            plum: {
+              400: '#5a4f54',
+              500: '#4a3f44',
+              600: '#3a3034',
+            },
+            blush: {
+              100: '#fdf2f0',
+              200: '#f0e4e0',
+              300: '#e5c1b3',
+              400: '#d9a898',
+            },
+            rose: {
+              50: '#fdf2f0',
+              100: '#f0e4e0',
+              400: '#e5c1b3',
+              500: '#4a3f44',
+              600: '#5a4f54',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <!-- Razorpay Checkout JS SDK -->
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+  <!-- Custom Theme CSS -->
+  <link rel="stylesheet" href="/assets/css/style.css" />
+</head>
+<body class="bg-[#fcf8f7] dark:bg-[#141214] text-[#2d2a2a] dark:text-[#f5f2f3] antialiased min-h-screen flex flex-col selection:bg-[#e5c1b3] selection:text-[#4a3f44]">
+
+  <!-- ========================================== -->
+  <!-- TOP ANNOUNCEMENT BANNER                    -->
+  <!-- ========================================== -->
+  <div class="bg-gradient-to-r from-[#3a3034] via-[#4a3f44] to-[#3a3034] text-white text-xs py-2 px-4 text-center font-medium shadow-xs flex items-center justify-center gap-2 relative z-50">
+    <span class="bg-[#e5c1b3] text-[#2d2a2a] px-2.5 py-0.5 rounded-full font-bold text-[9px] uppercase tracking-wider shrink-0">First Order Offer</span>
+    <span class="truncate" id="top-banner-announcement-text">🎁 <strong>First Order Gift:</strong> Receive a <strong>FREE Deluxe Sample Bottle</strong> of ANY product with your first purchase!</span>
+    <button onclick="window.glowApp?.openCheckoutModal()" class="underline font-bold text-[#e5c1b3] hover:text-white shrink-0 cursor-pointer hidden sm:inline">
+      Claim Sample &rarr;
+    </button>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- STICKY NAVBAR                              -->
+  <!-- ========================================== -->
+  <header class="sticky top-0 z-40 glass-nav transition-all">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
+      
+      <!-- Brand Logo -->
+      <a href="#" class="flex items-center gap-3 group">
+        <div class="relative w-11 h-11 rounded-2xl border border-white/60 dark:border-stone-700/80 p-1 bg-white/60 dark:bg-stone-800/60 backdrop-blur-md shadow-xs group-hover:scale-105 group-hover:shadow-md group-hover:border-[#e5c1b3] transition-all flex items-center justify-center">
+          <img src="/assets/images/logo-icon.svg" alt="DREAM Logo" class="w-full h-full object-contain" referrerPolicy="no-referrer" />
+        </div>
+        <div>
+          <span class="font-serif text-2xl font-bold tracking-tight text-[#4a3f44] dark:text-white flex items-center gap-1">
+            DREAM
+            <span class="w-1.5 h-1.5 rounded-full bg-[#e5c1b3] inline-block"></span>
+          </span>
+          <span class="block text-[8.5px] uppercase tracking-[0.25em] text-[#6d5f65] dark:text-stone-400 font-bold -mt-0.5">Cosmetics &amp; Skincare</span>
+        </div>
+      </a>
+
+      <!-- Desktop Navigation Links -->
+      <nav class="hidden lg:flex items-center gap-8 text-xs font-medium uppercase tracking-widest text-[#6d5f65] dark:text-stone-300">
+        <a href="#" class="hover:text-[#4a3f44] dark:hover:text-[#e5c1b3] transition-colors">Home</a>
+        <a href="#shop" class="hover:text-[#4a3f44] dark:hover:text-[#e5c1b3] transition-colors">Shop Collection</a>
+        <a href="#skin-analyzer" onclick="window.skinAnalyzer?.openModal()" class="text-[#4a3f44] dark:text-[#e5c1b3] font-bold flex items-center gap-1.5 hover:scale-105 transition-transform px-3 py-1.5 rounded-full bg-white/40 border border-white/60">
+          <i class="fas fa-camera text-xs text-[#e5c1b3]"></i> AI Skin Analysis
+        </a>
+        <a href="#quiz" class="hover:text-[#4a3f44] dark:hover:text-[#e5c1b3] transition-colors">Routines</a>
+      </nav>
+
+      <!-- Right Action Controls -->
+      <div class="flex items-center gap-3">
+        <!-- Currency Code Indicator -->
+        <div class="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/40 dark:bg-stone-800/40 border border-white/60 dark:border-stone-700/60 backdrop-blur-md text-[11px] font-bold text-[#4a3f44] dark:text-stone-200 shadow-xs">
+          <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+          <span>INR (₹)</span>
+        </div>
+
+        <!-- Theme Toggle -->
+        <button id="theme-toggle-btn" title="Toggle Theme" class="w-9 h-9 rounded-full bg-white/40 dark:bg-stone-800/40 border border-white/60 dark:border-stone-700/60 backdrop-blur-md flex items-center justify-center hover:scale-105 transition-transform text-[#4a3f44] dark:text-stone-200 shadow-xs">
+          <i id="theme-toggle-icon" class="fas fa-moon"></i>
+        </button>
+
+        <!-- Wishlist Icon -->
+        <button onclick="window.glowApp?.renderWishlistModal()" class="relative w-9 h-9 rounded-full bg-white/40 dark:bg-stone-800/40 border border-white/60 dark:border-stone-700/60 backdrop-blur-md flex items-center justify-center hover:scale-105 transition-transform text-[#4a3f44] dark:text-stone-200 shadow-xs">
+          <i class="far fa-heart text-sm"></i>
+          <span class="wishlist-count-badge hidden absolute -top-1 -right-1 w-4 h-4 bg-[#e5c1b3] text-[#4a3f44] text-[9px] font-bold rounded-full items-center justify-center shadow-xs">0</span>
+        </button>
+
+        <!-- My Orders Icon -->
+        <button onclick="window.glowApp?.renderMyOrdersModal()" title="My Orders & Tracking" class="relative w-9 h-9 rounded-full bg-white/40 dark:bg-stone-800/40 border border-white/60 dark:border-stone-700/60 backdrop-blur-md flex items-center justify-center hover:scale-105 transition-transform text-[#4a3f44] dark:text-stone-200 shadow-xs">
+          <i class="fas fa-box text-xs"></i>
+        </button>
+
+        <!-- Cart Bag Icon -->
+        <button data-action="toggle-cart" class="relative w-9 h-9 rounded-full bg-[#4a3f44] text-white flex items-center justify-center hover:scale-105 transition-transform shadow-md border border-white/20">
+          <i class="fas fa-shopping-bag text-xs"></i>
+          <span class="cart-count-badge hidden absolute -top-1 -right-1 w-4 h-4 bg-[#e5c1b3] text-[#4a3f44] text-[9px] font-bold rounded-full items-center justify-center shadow-xs">0</span>
+        </button>
+
+        <!-- User Profile Button -->
+        <button id="nav-user-btn" onclick="window.glowApp?.handleUserNavClick()" class="flex items-center gap-2 p-1.5 rounded-full bg-white/40 dark:bg-stone-800/40 border border-white/60 dark:border-stone-700/60 backdrop-blur-md hover:border-[#e5c1b3] transition-colors shadow-xs">
+          <i class="fas fa-user text-[#4a3f44] dark:text-stone-200 px-1 text-xs"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-1">
+    <!-- ========================================== -->
+    <!-- HERO BANNER SECTION                        -->
+    <!-- ========================================== -->
+    <section class="relative overflow-hidden pt-12 pb-20 lg:pt-20 lg:pb-32 bg-radial from-[#fdf2f0] via-[#fcf8f7] to-[#f4f6ff] dark:from-[#241a20] dark:via-[#141214] dark:to-[#141214]">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          
+          <!-- Hero Text -->
+          <div class="lg:col-span-7 space-y-8 text-center lg:text-left">
+            <div class="space-y-4">
+              <span class="px-4 py-1.5 rounded-full bg-white/40 dark:bg-stone-800/40 border border-white/60 dark:border-stone-700/60 text-[10px] font-bold uppercase tracking-widest text-[#e5c1b3] dark:text-[#e5c1b3] shadow-xs inline-block">
+                Next-Gen Skincare Intelligence
+              </span>
+
+              <h1 class="font-serif text-4xl sm:text-5xl lg:text-6xl font-light leading-tight text-[#4a3f44] dark:text-white">
+                Your Skin,<br/><span class="font-bold italic text-[#4a3f44] dark:text-[#e5c1b3]">Decoded.</span>
+              </h1>
+
+              <p class="text-[#6d5f65] dark:text-stone-300 text-base sm:text-lg max-w-lg leading-relaxed mx-auto lg:mx-0">
+                Advanced biometric scanning meets luxury formulation. Our AI analyzes 40+ facial markers to craft your unique molecular routine.
+              </p>
+
+              <!-- First Order Free Sample Offer Card -->
+              <div class="bg-gradient-to-r from-[#e5c1b3]/25 via-rose-500/10 to-[#e5c1b3]/25 border border-[#e5c1b3]/50 rounded-2xl p-3.5 flex items-center gap-3.5 shadow-xs max-w-lg mx-auto lg:mx-0 my-3 backdrop-blur-md">
+                <div class="w-10 h-10 rounded-xl bg-[#4a3f44] text-[#e5c1b3] flex items-center justify-center text-lg shrink-0 shadow-xs">
+                  <i class="fas fa-gift"></i>
+                </div>
+                <div class="flex-1 min-w-0 text-left">
+                  <div class="text-xs font-bold text-[#4a3f44] dark:text-white flex items-center gap-2 flex-wrap">
+                    <span>Free Sample Bottle On First Order</span>
+                    <span class="bg-emerald-500 text-white text-[9px] font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider shadow-xs">100% FREE GIFT</span>
+                  </div>
+                  <p class="text-[11px] text-[#6d5f65] dark:text-stone-300 mt-0.5 leading-tight">Pick a complimentary 15ml deluxe sample bottle of <strong>ANY product</strong> in your cart at checkout!</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Hero Action Buttons -->
+            <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-2">
+              <button onclick="window.skinAnalyzer?.openModal()" class="px-8 py-4 bg-[#4a3f44] hover:bg-[#5a4f54] text-white text-xs font-bold uppercase tracking-[0.2em] rounded-sm shadow-xl transition-all hover:scale-105 flex items-center gap-2">
+                <i class="fas fa-camera text-[#e5c1b3]"></i> Analyze My Skin
+              </button>
+
+              <a href="#shop" class="px-8 py-4 border border-[#4a3f44] dark:border-white/40 text-[#4a3f44] dark:text-white text-xs font-bold uppercase tracking-[0.2em] rounded-sm hover:bg-white/30 backdrop-blur-sm transition-all hover:scale-105 flex items-center gap-2">
+                <i class="fas fa-shopping-bag"></i> Shop Collection
+              </a>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="grid grid-cols-3 gap-4 pt-4 max-w-md mx-auto lg:mx-0">
+              <div class="p-4 bg-white/30 dark:bg-stone-800/30 backdrop-blur-sm border border-white/50 dark:border-stone-700/50 rounded-xl text-center lg:text-left">
+                <div class="text-2xl font-bold text-[#4a3f44] dark:text-white">98%</div>
+                <div class="text-[10px] text-[#6d5f65] dark:text-stone-400 uppercase font-bold tracking-tighter">Accuracy Rate</div>
+              </div>
+              <div class="p-4 bg-white/30 dark:bg-stone-800/30 backdrop-blur-sm border border-white/50 dark:border-stone-700/50 rounded-xl text-center lg:text-left">
+                <div class="text-2xl font-bold text-[#4a3f44] dark:text-white">12k+</div>
+                <div class="text-[10px] text-[#6d5f65] dark:text-stone-400 uppercase font-bold tracking-tighter">Formulations</div>
+              </div>
+              <div class="p-4 bg-white/30 dark:bg-stone-800/30 backdrop-blur-sm border border-white/50 dark:border-stone-700/50 rounded-xl text-center lg:text-left">
+                <div class="text-2xl font-bold text-[#4a3f44] dark:text-white">4.9/5</div>
+                <div class="text-[10px] text-[#6d5f65] dark:text-stone-400 uppercase font-bold tracking-tighter">User Rating</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Hero Image Showcase -->
+          <div class="lg:col-span-5 relative">
+            <div class="relative w-full max-w-md mx-auto aspect-4/5 rounded-3xl overflow-hidden bg-gradient-to-br from-white/40 to-white/10 dark:from-stone-800/40 dark:to-stone-900/10 backdrop-blur-xl border border-white/60 dark:border-stone-700/60 p-3 shadow-2xl glow-accent">
+              <img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=800" alt="Lumiere AI Skincare" class="w-full h-full object-cover rounded-2xl" />
+              
+              <!-- Floating AI Result Card Overlay -->
+              <div class="absolute bottom-6 left-6 right-6 bg-white/40 dark:bg-stone-900/60 backdrop-blur-md p-4 rounded-2xl border border-white/60 dark:border-stone-700/60 shadow-xl flex items-center gap-3">
+                <div class="w-12 h-12 rounded-xl bg-[#4a3f44] text-[#e5c1b3] flex items-center justify-center text-xl font-bold shrink-0">
+                  96%
+                </div>
+                <div>
+                  <h4 class="font-bold text-xs text-[#4a3f44] dark:text-white">AI Compatibility Score</h4>
+                  <p class="text-[11px] text-[#6d5f65] dark:text-stone-400">Custom match for Combination & Hyaluronic care</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- CATEGORIES CAROUSEL SECTION                -->
+    <!-- ========================================== -->
+    <section id="categories" class="py-16 bg-white/20 dark:bg-stone-900/20 border-y border-white/40 dark:border-stone-800">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-xl mx-auto mb-10">
+          <span class="text-[10px] font-bold uppercase tracking-widest text-[#e5c1b3] mb-1 block">Curated Formulations</span>
+          <h2 class="font-serif text-3xl font-bold text-[#4a3f44] dark:text-white">Explore Categories</h2>
+          <p class="text-xs text-[#6d5f65] dark:text-stone-400 mt-1">Clean beauty solutions engineered for every step of your daily ritual</p>
+        </div>
+
+        <div id="home-categories-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- INTERACTIVE QUIZ SECTION                   -->
+    <!-- ========================================== -->
+    <section id="quiz" class="py-20">
+      <div class="max-w-4xl mx-auto px-4">
+        <div class="bg-gradient-to-br from-white/40 to-white/10 dark:from-stone-900/40 dark:to-stone-900/20 backdrop-blur-xl border border-white/60 dark:border-stone-800 p-8 sm:p-12 rounded-3xl shadow-2xl text-center relative overflow-hidden">
+          <span class="text-[10px] font-bold uppercase tracking-widest text-[#e5c1b3] mb-2 block">Interactive Skincare Match</span>
+          <h2 class="font-serif text-3xl sm:text-4xl font-bold text-[#4a3f44] dark:text-white mb-3">Find Your Molecular Formula Match</h2>
+          <p class="text-xs text-[#6d5f65] dark:text-stone-300 max-w-xl mx-auto mb-8">Answer 3 quick questions to generate your instant cosmetic routine recommendation score!</p>
+
+          <div id="quiz-container" class="space-y-6 max-w-lg mx-auto text-left">
+            <div>
+              <label class="block text-xs font-bold text-[#4a3f44] dark:text-stone-300 mb-2 uppercase tracking-wider">1. How does your skin feel after cleansing?</label>
+              <select id="quiz-q1" class="w-full bg-white/50 dark:bg-stone-800/60 backdrop-blur-md border border-white/60 dark:border-stone-700 rounded-xl p-3 text-sm focus:ring-2 focus:ring-[#e5c1b3] outline-none text-[#2d2a2a] dark:text-white">
+                <option value="tight">Tight and dry all over</option>
+                <option value="shiny">Shiny and oily within an hour</option>
+                <option value="combination" selected>Oily in T-Zone, normal on cheeks</option>
+                <option value="sensitive">Red or easily irritated</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-[#4a3f44] dark:text-stone-300 mb-2 uppercase tracking-wider">2. What is your primary skincare concern?</label>
+              <select id="quiz-q2" class="w-full bg-white/50 dark:bg-stone-800/60 backdrop-blur-md border border-white/60 dark:border-stone-700 rounded-xl p-3 text-sm focus:ring-2 focus:ring-[#e5c1b3] outline-none text-[#2d2a2a] dark:text-white">
+                <option value="Dark Spots" selected>Dark Spots & Hyperpigmentation</option>
+                <option value="Acne">Acne & Blackheads</option>
+                <option value="Dryness">Dryness & Flakiness</option>
+                <option value="Wrinkles">Fine Lines & Wrinkles</option>
+                <option value="Redness">Redness & Irritation</option>
+              </select>
+            </div>
+
+            <button onclick="window.glowApp?.filterByCategory(3)" class="w-full bg-[#4a3f44] hover:bg-[#5a4f54] text-white text-xs font-bold uppercase tracking-[0.2em] py-4 rounded-md transition-all shadow-xl">
+              View My Custom Match Products <i class="fas fa-arrow-right ml-2 text-[#e5c1b3]"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- SHOP & PRODUCTS SECTION                    -->
+    <!-- ========================================== -->
+    <section id="shop" class="py-20">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- Header & Search Controls -->
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+          <div>
+            <span class="text-[10px] font-bold uppercase tracking-widest text-[#e5c1b3] block mb-1">Botanical Active Collection</span>
+            <h2 class="font-serif text-3xl sm:text-4xl font-bold text-[#4a3f44] dark:text-white">Our Skincare Collection</h2>
+            <p id="shop-result-count" class="text-xs text-[#6d5f65] dark:text-stone-400 mt-1">Showing all active formulation products</p>
+          </div>
+
+          <!-- Live Search Bar -->
+          <div class="w-full md:w-80 relative">
+            <i class="fas fa-search absolute left-3.5 top-1/2 -translate-y-1/2 text-[#6d5f65] text-xs"></i>
+            <input type="text" id="shop-search-input" placeholder="Search by name, ingredient, concern..." class="w-full bg-white/40 dark:bg-stone-800/40 backdrop-blur-md border border-white/60 dark:border-stone-700 rounded-xl pl-10 pr-4 py-2.5 text-xs focus:ring-2 focus:ring-[#e5c1b3] outline-none shadow-xs text-[#2d2a2a] dark:text-white" />
+          </div>
+        </div>
+
+        <!-- Filter Bar -->
+        <div class="glass-panel p-4 rounded-2xl mb-4 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 text-xs">
+          <div>
+            <label class="block font-bold text-[#4a3f44] dark:text-stone-300 mb-1 uppercase tracking-wider text-[10px]">Category</label>
+            <select id="shop-category-select" onchange="window.glowApp?.onCategoryFilterChange()" class="w-full bg-white/50 dark:bg-stone-800/60 border border-white/60 dark:border-stone-700 rounded-lg p-2 outline-none text-[#2d2a2a] dark:text-white">
+              <option value="">All Categories</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block font-bold text-[#4a3f44] dark:text-stone-300 mb-1 uppercase tracking-wider text-[10px]">Sub-Category</label>
+            <select id="shop-subcategory-select" onchange="window.glowApp?.filterShopProducts()" class="w-full bg-white/50 dark:bg-stone-800/60 border border-white/60 dark:border-stone-700 rounded-lg p-2 outline-none text-[#2d2a2a] dark:text-white">
+              <option value="">All Sub-Categories</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block font-bold text-[#4a3f44] dark:text-stone-300 mb-1 uppercase tracking-wider text-[10px]">Skin Type</label>
+            <select id="shop-skintype-select" onchange="window.glowApp?.filterShopProducts()" class="w-full bg-white/50 dark:bg-stone-800/60 border border-white/60 dark:border-stone-700 rounded-lg p-2 outline-none text-[#2d2a2a] dark:text-white">
+              <option value="">All Skin Types</option>
+              <option value="oily">Oily</option>
+              <option value="dry">Dry</option>
+              <option value="combination">Combination</option>
+              <option value="sensitive">Sensitive</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block font-bold text-[#4a3f44] dark:text-stone-300 mb-1 uppercase tracking-wider text-[10px]">Skin Concern</label>
+            <select id="shop-concern-select" onchange="window.glowApp?.filterShopProducts()" class="w-full bg-white/50 dark:bg-stone-800/60 border border-white/60 dark:border-stone-700 rounded-lg p-2 outline-none text-[#2d2a2a] dark:text-white">
+              <option value="">All Concerns</option>
+              <option value="dark spots">Dark Spots</option>
+              <option value="acne">Acne & Blemishes</option>
+              <option value="redness">Redness</option>
+              <option value="wrinkles">Wrinkles</option>
+              <option value="dryness">Dryness</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block font-bold text-[#4a3f44] dark:text-stone-300 mb-1 uppercase tracking-wider text-[10px]">Sort By</label>
+            <select id="shop-sort-select" onchange="window.glowApp?.filterShopProducts()" class="w-full bg-white/50 dark:bg-stone-800/60 border border-white/60 dark:border-stone-700 rounded-lg p-2 outline-none text-[#2d2a2a] dark:text-white">
+              <option value="newest">Newest First</option>
+              <option value="price_asc">Price: Low to High</option>
+              <option value="price_desc">Price: High to Low</option>
+              <option value="rating">Highest Rated</option>
+              <option value="popular">Most Popular</option>
+              <option value="discount">Biggest Discount</option>
+            </select>
+          </div>
+
+          <div class="col-span-2 sm:col-span-1 flex items-end">
+            <button onclick="window.glowApp?.resetShopFilters()" class="w-full bg-white/40 dark:bg-stone-800/40 hover:bg-white/70 text-[#4a3f44] dark:text-stone-300 font-bold p-2 rounded-lg transition-colors border border-white/50 dark:border-stone-700 text-[11px] uppercase tracking-wider">
+              Reset Filters
+            </button>
+          </div>
+        </div>
+
+        <!-- Dynamic Subcategory Quick Pills Filter -->
+        <div id="shop-subcategory-pills-container" class="mb-8 hidden">
+          <div class="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-thin" id="shop-subcategory-pills">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+
+        <!-- Products Grid -->
+        <div id="shop-products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <!-- Dynamically populated by app.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- FEATURED / BESTSELLERS TABS                -->
+    <!-- ========================================== -->
+    <section class="py-16 bg-white/20 dark:bg-stone-900/20 border-t border-white/40 dark:border-stone-800">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between mb-8">
+          <div>
+            <span class="text-[10px] font-bold uppercase tracking-widest text-[#e5c1b3] block mb-1">Top Recommendations</span>
+            <h2 class="font-serif text-2xl font-bold text-[#4a3f44] dark:text-white">Customer Bestsellers</h2>
+            <p class="text-xs text-[#6d5f65]">Top-rated formulas loved by thousands</p>
+          </div>
+        </div>
+
+        <div id="bestseller-products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ========================================== -->
+  <!-- FOOTER                                     -->
+  <!-- ========================================== -->
+  <footer class="bg-[#141214] text-stone-300 pt-16 pb-12 border-t border-white/10 text-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Newsletter Subscription Card Banner -->
+      <div class="bg-gradient-to-r from-stone-900 via-[#231b20] to-stone-900 border border-[#e5c1b3]/30 rounded-3xl p-6 sm:p-10 mb-14 relative overflow-hidden shadow-2xl">
+        <!-- Ambient lighting glow accents -->
+        <div class="absolute -top-12 -right-12 w-56 h-56 bg-[#e5c1b3]/15 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute -bottom-12 -left-12 w-56 h-56 bg-rose-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-8">
+          <div class="space-y-3 text-center lg:text-left max-w-xl">
+            <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#e5c1b3]/15 text-[#e5c1b3] border border-[#e5c1b3]/30 text-[10px] uppercase font-bold tracking-widest">
+              <i class="fas fa-sparkles text-xs"></i> DREAM Beauty Insider Club
+            </div>
+            <h3 class="font-serif text-2xl sm:text-3xl font-bold text-white tracking-tight leading-tight">
+              Unlock 15% Off Your First Clinical Formula Order
+            </h3>
+            <p class="text-stone-400 text-xs sm:text-sm leading-relaxed">
+              Subscribe to receive personalized AI skincare diagnostic reports, early active formulation drops, and exclusive campaign privileges.
+            </p>
+          </div>
+
+          <div class="w-full lg:w-auto min-w-[320px] sm:min-w-[420px]">
+            <form id="newsletter-footer-form" class="space-y-3">
+              <div class="relative flex items-center">
+                <div class="absolute left-3.5 text-stone-500 pointer-events-none text-xs">
+                  <i class="fas fa-envelope"></i>
+                </div>
+                <input 
+                  type="email" 
+                  id="newsletter-email" 
+                  placeholder="Enter your email address..." 
+                  required
+                  class="w-full bg-stone-950/90 border border-stone-800 focus:border-[#e5c1b3] text-white placeholder-stone-500 rounded-xl pl-9 pr-32 py-3.5 text-xs outline-none transition-all shadow-inner"
+                />
+                <button 
+                  type="submit" 
+                  id="btn-newsletter-submit"
+                  class="absolute right-1.5 bg-[#e5c1b3] hover:bg-[#d4ac9d] text-[#2d2a2a] font-bold text-xs py-2.5 px-5 rounded-lg transition-all shadow-md hover:shadow-lg cursor-pointer flex items-center gap-1.5"
+                >
+                  <span>Subscribe</span>
+                  <i class="fas fa-arrow-right text-[10px]"></i>
+                </button>
+              </div>
+
+              <!-- Status Feedback Message -->
+              <div id="newsletter-status-msg" class="hidden text-[11px] p-3 rounded-xl border"></div>
+
+              <div id="newsletter-footer-subtext" class="flex items-center justify-between text-[10px] text-stone-500 px-1">
+                <span><i class="fas fa-shield-alt text-[#e5c1b3] mr-1"></i> No spam. Unsubscribe anytime.</span>
+                <span class="font-bold text-[#e5c1b3] bg-[#e5c1b3]/10 px-2 py-0.5 rounded border border-[#e5c1b3]/20">15% OFF CODE: GLOW15</span>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation & Links Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+      <div class="space-y-4">
+        <a href="#" class="flex items-center gap-3 text-white group">
+          <div class="w-10 h-10 rounded-xl p-0.5 bg-stone-800 border border-stone-700 flex items-center justify-center">
+            <img src="/assets/images/logo-icon.svg" alt="DREAM Logo" class="w-full h-full object-contain" referrerPolicy="no-referrer" />
+          </div>
+          <div>
+            <span class="font-serif text-2xl font-bold tracking-tight text-white block leading-none">DREAM</span>
+            <span class="text-[8px] uppercase tracking-[0.25em] text-[#e5c1b3] font-bold block mt-1">Cosmetics &amp; Skincare Lab</span>
+          </div>
+        </a>
+        <p class="text-stone-400 leading-relaxed text-[11px]">
+          Pioneering AI-driven cosmetic skincare diagnostics and clinical active formulations for healthy, radiant skin.
+        </p>
+      </div>
+
+      <div>
+        <h4 class="font-bold text-white uppercase tracking-widest text-[10px] mb-4 text-[#e5c1b3]">Customer Care</h4>
+        <ul class="space-y-2.5 text-stone-400 text-[11px]">
+          <li><a href="#skin-analyzer" onclick="window.skinAnalyzer?.openModal()" class="hover:text-white transition-colors">AI Skin Diagnostics</a></li>
+          <li><a href="#shop" class="hover:text-white transition-colors">Product Catalog</a></li>
+          <li><a href="#quiz" class="hover:text-white transition-colors">Skin Type Quiz</a></li>
+          <li><a href="/admin" target="_blank" class="hover:text-white transition-colors">Admin Portal</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="font-bold text-white uppercase tracking-widest text-[10px] mb-4 text-[#e5c1b3]">Contact Support</h4>
+        <p class="text-stone-400 text-[11px]">Email: support@dream.com</p>
+        <p class="text-stone-400 mt-1 text-[11px]">Phone: +1 (800) 555-DREAM</p>
+        <p class="text-stone-400 mt-1 text-[11px]">Hours: Mon-Fri 9am-6pm EST</p>
+      </div>
+
+      <div>
+        <h4 class="font-bold text-white uppercase tracking-widest text-[10px] mb-4 text-[#e5c1b3]">Ethics & AI Disclaimer</h4>
+        <p class="text-stone-400 leading-relaxed text-[11px]">
+          AI skin analysis provides general cosmetic guidance only and is not a medical diagnosis. For persistent or concerning skin conditions, consult a qualified dermatologist.
+        </p>
+      </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-white/10 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-stone-500 text-[10px] uppercase tracking-widest">
+      <p>© 2026 DREAM Skincare Lab Inc. All rights reserved.</p>
+      <div class="flex items-center gap-4 text-stone-400 text-xs">
+        <span class="flex items-center gap-1"><i class="fas fa-bolt text-[#3395FF]"></i> Razorpay Secure</span>
+        <span class="flex items-center gap-1"><i class="fas fa-mobile-alt text-emerald-400"></i> UPI / Cards</span>
+        <span class="flex items-center gap-1"><i class="fas fa-hand-holding-usd text-amber-400"></i> Cash on Delivery</span>
+        <span class="flex items-center gap-1"><i class="fas fa-lock text-stone-400"></i> 256-bit SSL</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========================================== -->
+  <!-- MODAL: AI SKIN ANALYZER                    -->
+  <!-- ========================================== -->
+  <div id="skin-analyzer-modal" class="modal-container fixed inset-0 z-50 bg-black/60 backdrop-blur-xl hidden items-center justify-center p-4">
+    <div class="bg-white/80 dark:bg-stone-900/90 backdrop-blur-2xl rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 sm:p-8 relative shadow-2xl border border-white/60 dark:border-stone-700">
+      
+      <!-- Close Button -->
+      <button data-action="close-skin-analyzer" class="absolute top-5 right-5 w-8 h-8 rounded-full bg-white/50 dark:bg-stone-800 text-[#4a3f44] dark:text-white hover:bg-white flex items-center justify-center text-xs shadow-xs">
+        <i class="fas fa-times"></i>
+      </button>
+
+      <!-- Step 1: Camera / Upload Input -->
+      <div id="skin-step-input" class="space-y-6">
+        <div class="text-center">
+          <span class="text-[10px] font-bold uppercase tracking-widest text-[#e5c1b3]">AI Visual Diagnostic</span>
+          <h3 class="font-serif text-2xl font-bold text-[#4a3f44] dark:text-white mt-1">AI Skin Analyzer</h3>
+          <p class="text-xs text-[#6d5f65] dark:text-stone-400 mt-1">Face the camera directly in bright lighting for real-time visual assessment</p>
+        </div>
+
+        <!-- Camera Box -->
+        <div id="camera-box" class="relative w-full aspect-4/3 rounded-2xl overflow-hidden bg-stone-950 flex items-center justify-center border-2 border-white/40 dark:border-stone-800">
+          <video id="camera-stream" autoplay playsinline class="w-full h-full object-cover hidden"></video>
+          
+          <div id="camera-placeholder" class="text-center p-6 text-stone-400">
+            <i class="fas fa-camera text-4xl mb-2 text-[#e5c1b3]"></i>
+            <p class="text-xs font-semibold">Initializing Camera Stream...</p>
+          </div>
+
+          <!-- Scanning Overlay Beam -->
+          <div class="camera-viewframe absolute inset-8 rounded-2xl pointer-events-none"></div>
+          <div class="scanning-line"></div>
+        </div>
+
+        <!-- Photo Preview Container -->
+        <div id="photo-preview-container" class="hidden relative w-full aspect-4/3 rounded-2xl overflow-hidden bg-stone-950">
+          <img id="photo-preview-img" class="w-full h-full object-cover" />
+        </div>
+
+        <!-- Controls -->
+        <div class="flex items-center justify-between gap-4">
+          <button id="btn-capture-photo" class="flex-1 bg-[#4a3f44] hover:bg-[#5a4f54] text-white font-bold py-3 rounded-xl transition-colors text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-md">
+            <i class="fas fa-camera text-[#e5c1b3]"></i> Capture Photo
+          </button>
+
+          <button id="btn-retake-photo" class="hidden flex-1 bg-white/50 dark:bg-stone-800 text-[#4a3f44] dark:text-stone-200 font-bold py-3 rounded-xl transition-colors text-xs uppercase tracking-wider border border-white/60">
+            <i class="fas fa-redo"></i> Retake
+          </button>
+
+          <button id="btn-start-analysis" disabled class="flex-1 bg-[#4a3f44] hover:bg-[#5a4f54] disabled:opacity-40 text-white font-bold py-3 rounded-xl transition-colors text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-md">
+            <i class="fas fa-sparkles text-[#e5c1b3]"></i> Run AI Analysis
+          </button>
+        </div>
+
+        <!-- File Upload Alternative -->
+        <div class="text-center border-t border-white/40 dark:border-stone-800 pt-4">
+          <p class="text-xs text-[#6d5f65] mb-2">Or select an existing face photo from your device:</p>
+          <input type="file" id="skin-upload-input" accept="image/*" class="text-xs text-stone-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-white/60 file:text-[#4a3f44] hover:file:bg-white" />
+        </div>
+      </div>
+
+      <!-- Analysis Scanning Overlay -->
+      <div id="analysis-scanning-overlay" class="hidden text-center py-12 space-y-4">
+        <div class="w-16 h-16 border-4 border-white/40 border-t-[#4a3f44] rounded-full animate-spin mx-auto"></div>
+        <h4 class="font-bold text-[#4a3f44] dark:text-white text-base">Analyzing Skin Texture & Tone...</h4>
+        <p class="text-xs text-[#6d5f65] max-w-sm mx-auto">Evaluating visual characteristics, moisture levels, and matching active ingredient formulas...</p>
+      </div>
+
+      <!-- Step 2: Diagnostic Results -->
+      <div id="skin-step-result" class="hidden space-y-6">
+        <div class="flex items-center justify-between border-b border-white/40 dark:border-stone-800 pb-4">
+          <div>
+            <span class="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-widest">Analysis Complete</span>
+            <h3 class="font-serif text-2xl font-bold text-[#4a3f44] dark:text-white">Your Skin Diagnostic Profile</h3>
+          </div>
+          <div class="text-right">
+            <span id="res-health-score" class="text-3xl font-bold text-[#4a3f44] dark:text-[#e5c1b3]">88/100</span>
+            <span class="block text-[9px] text-[#6d5f65] uppercase font-bold tracking-widest">Health Score</span>
+          </div>
+        </div>
+
+        <!-- Metrics Grid -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 text-xs">
+          <div class="bg-white/40 dark:bg-stone-800/40 p-3 rounded-xl border border-white/50">
+            <span class="text-[#6d5f65] block text-[9px] uppercase font-bold tracking-wider">Skin Type</span>
+            <span id="res-skin-type" class="font-bold text-[#4a3f44] dark:text-white">Combination</span>
+          </div>
+          <div class="bg-white/40 dark:bg-stone-800/40 p-3 rounded-xl border border-white/50">
+            <span class="text-[#6d5f65] block text-[9px] uppercase font-bold tracking-wider">Oiliness</span>
+            <span id="res-oiliness" class="font-bold text-[#4a3f44] dark:text-white">Moderate</span>
+          </div>
+          <div class="bg-white/40 dark:bg-stone-800/40 p-3 rounded-xl border border-white/50">
+            <span class="text-[#6d5f65] block text-[9px] uppercase font-bold tracking-wider">Dryness</span>
+            <span id="res-dryness" class="font-bold text-[#4a3f44] dark:text-white">Low</span>
+          </div>
+          <div class="bg-white/40 dark:bg-stone-800/40 p-3 rounded-xl border border-white/50">
+            <span class="text-[#6d5f65] block text-[9px] uppercase font-bold tracking-wider">Dark Spots</span>
+            <span id="res-darkspots" class="font-bold text-[#4a3f44] dark:text-white">Moderate</span>
+          </div>
+          <div class="bg-white/40 dark:bg-stone-800/40 p-3 rounded-xl border border-white/50">
+            <span class="text-[#6d5f65] block text-[9px] uppercase font-bold tracking-wider">Visible Redness</span>
+            <span id="res-redness" class="font-bold text-[#4a3f44] dark:text-white">Low</span>
+          </div>
+          <div class="bg-white/40 dark:bg-stone-800/40 p-3 rounded-xl border border-white/50">
+            <span class="text-[#6d5f65] block text-[9px] uppercase font-bold tracking-wider">Texture</span>
+            <span id="res-texture" class="font-bold text-[#4a3f44] dark:text-white">Smooth</span>
+          </div>
+        </div>
+
+        <p id="res-notes" class="text-xs text-[#4a3f44] dark:text-stone-300 bg-white/40 dark:bg-stone-800/40 p-3.5 rounded-xl border border-white/60 leading-relaxed"></p>
+
+        <!-- Routines -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="bg-white/50 dark:bg-stone-800/60 p-4 rounded-2xl border border-white/60 dark:border-stone-700">
+            <h4 class="font-bold text-xs text-[#4a3f44] dark:text-[#e5c1b3] uppercase tracking-wider mb-2">☀️ Morning Routine</h4>
+            <ul id="res-morning-routine" class="space-y-2"></ul>
+          </div>
+
+          <div class="bg-white/50 dark:bg-stone-800/60 p-4 rounded-2xl border border-white/60 dark:border-stone-700">
+            <h4 class="font-bold text-xs text-[#6d5f65] dark:text-stone-300 uppercase tracking-wider mb-2">🌙 Evening Routine</h4>
+            <ul id="res-evening-routine" class="space-y-2"></ul>
+          </div>
+        </div>
+
+        <!-- Recommended Products -->
+        <div>
+          <h4 class="font-bold text-sm text-[#4a3f44] dark:text-white mb-3">Recommended Formula Products</h4>
+          <div id="res-products-grid" class="space-y-2.5"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MODAL: PRODUCT DETAILS                     -->
+  <!-- ========================================== -->
+  <div id="product-detail-modal" class="modal-container fixed inset-0 z-50 bg-black/60 backdrop-blur-xl hidden items-center justify-center p-4">
+    <div class="bg-white/85 dark:bg-stone-900/90 backdrop-blur-2xl rounded-3xl max-w-3xl w-full max-h-[90vh] overflow-y-auto p-6 sm:p-8 relative shadow-2xl border border-white/60 dark:border-stone-800">
+      <button data-action="close-modal" class="absolute top-5 right-5 w-8 h-8 rounded-full bg-white/50 dark:bg-stone-800 text-[#4a3f44] dark:text-white hover:bg-white flex items-center justify-center text-xs shadow-xs">
+        <i class="fas fa-times"></i>
+      </button>
+      <div id="product-detail-content"></div>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MODAL: AUTHENTICATION                      -->
+  <!-- ========================================== -->
+  <div id="auth-modal" class="modal-container fixed inset-0 z-50 bg-black/60 backdrop-blur-xl hidden items-center justify-center p-4">
+    <div class="bg-white/90 dark:bg-stone-900/95 backdrop-blur-2xl rounded-3xl max-w-md w-full p-6 sm:p-8 relative shadow-2xl border border-white/60 dark:border-stone-800">
+      <button data-action="close-modal" class="absolute top-5 right-5 w-8 h-8 rounded-full bg-white/50 dark:bg-stone-800 text-[#4a3f44] dark:text-white hover:bg-white flex items-center justify-center text-xs shadow-xs">
+        <i class="fas fa-times"></i>
+      </button>
+
+      <!-- Logo & Welcome -->
+      <div class="text-center mb-6">
+        <div class="w-12 h-12 rounded-2xl bg-white dark:bg-stone-800 p-1 border border-stone-200 dark:border-stone-700 shadow-xs mx-auto mb-2 flex items-center justify-center">
+          <img src="/assets/images/logo-icon.svg" alt="DREAM Logo" class="w-full h-full object-contain" referrerPolicy="no-referrer" />
+        </div>
+        <h3 class="font-serif text-xl font-bold text-[#4a3f44] dark:text-white">Welcome to DREAM</h3>
+        <p class="text-xs text-[#6d5f65] dark:text-stone-400 mt-0.5">Access your skincare profile & AI diagnostics</p>
+      </div>
+
+      <!-- Checkout Required Banner (Shown dynamically when attempting to checkout without sign-in) -->
+      <div id="auth-checkout-notice" class="hidden mb-4 p-3 rounded-2xl bg-indigo-50 dark:bg-indigo-950/50 border border-indigo-200 dark:border-indigo-800 text-indigo-900 dark:text-indigo-200 text-xs flex items-center gap-2.5">
+        <i class="fas fa-lock text-indigo-600 dark:text-indigo-400 text-sm shrink-0"></i>
+        <span><strong>Sign-in Required:</strong> Please sign in or create an account to proceed with your order checkout.</span>
+      </div>
+
+      <!-- Tabs -->
+      <div class="flex border-b border-white/40 dark:border-stone-800 mb-5">
+        <button id="tab-btn-login" type="button" onclick="window.glowApp?.switchAuthTab('login')" class="flex-1 py-2.5 text-xs uppercase tracking-widest font-bold border-b-2 border-[#4a3f44] text-[#4a3f44] dark:text-[#e5c1b3]">
+          Sign In
+        </button>
+        <button id="tab-btn-register" type="button" onclick="window.glowApp?.switchAuthTab('register')" class="flex-1 py-2.5 text-xs uppercase tracking-widest font-bold border-b-2 border-transparent text-[#6d5f65]">
+          Create Account
+        </button>
+      </div>
+
+      <!-- Login Form -->
+      <form id="auth-login-form" class="space-y-4">
+        <div id="login-error-msg" class="hidden p-3 rounded-xl bg-rose-50 dark:bg-rose-950/50 border border-rose-200 dark:border-rose-800 text-rose-600 dark:text-rose-300 text-xs font-semibold flex items-center gap-2">
+          <i class="fas fa-exclamation-circle text-rose-500 shrink-0"></i>
+          <span class="msg-text"></span>
+        </div>
+
+        <div>
+          <label class="block text-[10px] font-bold text-[#4a3f44] dark:text-stone-300 mb-1 uppercase tracking-wider">Email Address</label>
+          <input type="email" id="login-email" placeholder="jane@example.com" class="w-full bg-white/50 dark:bg-stone-800/60 border border-white/60 dark:border-stone-700 rounded-xl px-3.5 py-2.5 text-xs focus:ring-2 focus:ring-[#e5c1b3] outline-none text-[#2d2a2a] dark:text-white" required />
+        </div>
+        <div>
+          <div class="flex items-center justify-between mb-1">
+            <label class="block text-[10px] font-bold text-[#4a3f44] dark:text-stone-300 uppercase tracking-wider">Password</label>
+            <button type="button" onclick="window.glowApp?.handleForgotPassword()" class="text-[10px] font-bold text-[#8c7a82] hover:text-[#4a3f44] dark:text-stone-400 dark:hover:text-stone-200 transition-colors">Forgot password?</button>
+          </div>
+          <div class="relative">
+            <input type="password" id="login-password" placeholder="••••••••" class="w-full bg-white/50 dark:bg-stone-800/60 border border-white/60 dark:border-stone-700 rounded-xl pl-3.5 pr-10 py-2.5 text-xs focus:ring-2 focus:ring-[#e5c1b3] outline-none text-[#2d2a2a] dark:text-white" required />
+            <button type="button" onclick="window.glowApp?.togglePassword('login-password', this)" class="absolute right-3 top-2.5 text-stone-400 hover:text-stone-600 dark:hover:text-stone-200 text-xs">
+              <i class="fas fa-eye"></i>
+            </button>
+          </div>
+        </div>
+        <button type="submit" id="btn-login-submit" class="w-full bg-[#4a3f44] hover:bg-[#5a4f54] text-white font-bold py-3 rounded-xl transition-colors text-xs uppercase tracking-widest shadow-md flex items-center justify-center gap-2">
+          <span>Sign In</span>
+        </button>
+      </form>
+
+      <!-- Register Form -->
+      <form id="auth-register-form" class="space-y-4 hidden">
+        <div id="reg-error-msg" class="hidden p-3 rounded-xl bg-rose-50 dark:bg-rose-950/50 border border-rose-200 dark:border-rose-800 text-rose-600 dark:text-rose-300 text-xs font-semibold flex items-center gap-2">
+          <i class="fas fa-exclamation-circle text-rose-500 shrink-0"></i>
+          <span class="msg-text"></span>
+        </div>
+
+        <div>
+          <label class="block text-[10px] font-bold text-[#4a3f44] dark:text-stone-300 mb-1 uppercase tracking-wider">Full Name</label>
+          <input type="text" id="reg-fullname" placeholder="Jane Doe" class="w-full bg-white/50 dark:bg-stone-800/60 border border-white/60 dark:border-stone-700 rounded-xl px-3.5 py-2.5 text-xs focus:ring-2 focus:ring-[#e5c1b3] outline-none text-[#2d2a2a] dark:text-white" required />
+        </div>
+        <div>
+          <label class="block text-[10px] font-bold text-[#4a3f44] dark:text-stone-300 mb-1 uppercase tracking-wider">Email Address</label>
+          <input type="email" id="reg-email" placeholder="jane@example.com" class="w-full bg-white/50 dark:bg-stone-800/60 border border-white/60 dark:border-stone-700 rounded-xl px-3.5 py-2.5 text-xs focus:ring-2 focus:ring-[#e5c1b3] outline-none text-[#2d2a2a] dark:text-white" required />
+        </div>
+        <div>
+          <label class="block text-[10px] font-bold text-[#4a3f44] dark:text-stone-300 mb-1 uppercase tracking-wider">Phone Number</label>
+          <input type="text" id="reg-phone" placeholder="+1 (555) 234-5678" class="w-full bg-white/50 dark:bg-stone-800/60 border border-white/60 dark:border-stone-700 rounded-xl px-3.5 py-2.5 text-xs focus:ring-2 focus:ring-[#e5c1b3] outline-none text-[#2d2a2a] dark:text-white" />
+        </div>
+        <div>
+          <label class="block text-[10px] font-bold text-[#4a3f44] dark:text-stone-300 mb-1 uppercase tracking-wider">Password</label>
+          <div class="relative">
+            <input type="password" id="reg-password" placeholder="••••••••" class="w-full bg-white/50 dark:bg-stone-800/60 border border-white/60 dark:border-stone-700 rounded-xl pl-3.5 pr-10 py-2.5 text-xs focus:ring-2 focus:ring-[#e5c1b3] outline-none text-[#2d2a2a] dark:text-white" required />
+            <button type="button" onclick="window.glowApp?.togglePassword('reg-password', this)" class="absolute right-3 top-2.5 text-stone-400 hover:text-stone-600 dark:hover:text-stone-200 text-xs">
+              <i class="fas fa-eye"></i>
+            </button>
+          </div>
+        </div>
+        <button type="submit" id="btn-reg-submit" class="w-full bg-[#4a3f44] hover:bg-[#5a4f54] text-white font-bold py-3 rounded-xl transition-colors text-xs uppercase tracking-widest shadow-md flex items-center justify-center gap-2">
+          <span>Create Account</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MODAL: USER PROFILE & ACCOUNT              -->
+  <!-- ========================================== -->
+  <div id="user-profile-modal" class="modal-container fixed inset-0 z-50 bg-black/60 backdrop-blur-xl hidden items-center justify-center p-4">
+    <div class="bg-white/90 dark:bg-stone-900/95 backdrop-blur-2xl rounded-3xl max-w-sm w-full p-6 relative shadow-2xl border border-white/60 dark:border-stone-800 text-center">
+      <button data-action="close-modal" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/50 dark:bg-stone-800 text-[#4a3f44] dark:text-white hover:bg-white flex items-center justify-center text-xs shadow-xs">
+        <i class="fas fa-times"></i>
+      </button>
+
+      <div class="w-16 h-16 rounded-full bg-gradient-to-tr from-[#e5c1b3] to-[#4a3f44] p-0.5 shadow-md mx-auto mb-3">
+        <div id="profile-modal-avatar" class="w-full h-full rounded-full bg-white dark:bg-stone-800 flex items-center justify-center font-serif text-2xl font-bold text-[#4a3f44] dark:text-[#e5c1b3]">
+          D
+        </div>
+      </div>
+
+      <h3 id="profile-modal-name" class="font-serif text-lg font-bold text-[#4a3f44] dark:text-white">User Name</h3>
+      <p id="profile-modal-email" class="text-xs text-stone-500 dark:text-stone-400 font-mono mt-0.5">user@example.com</p>
+
+      <div id="profile-provider-badge" class="mt-2 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-stone-100 dark:bg-stone-800 text-[10px] font-bold text-stone-600 dark:text-stone-300">
+        <i class="fas fa-user-check text-emerald-500"></i> Authenticated Account
+      </div>
+
+      <!-- Action Links & Edit Profile Form -->
+      <div class="mt-5 space-y-3 text-left">
+        <!-- Edit Profile Form (Collapsible/Inline) -->
+        <form id="form-user-edit-profile" class="p-3.5 rounded-2xl bg-stone-50 dark:bg-stone-800/60 border border-stone-200/70 dark:border-stone-700/60 space-y-2.5 text-xs">
+          <div class="flex items-center justify-between pb-1 border-b border-stone-200/50 dark:border-stone-700/50">
+            <span class="font-bold text-[11px] text-[#4a3f44] dark:text-stone-200 flex items-center gap-1.5"><i class="fas fa-user-edit text-[#e5c1b3]"></i> Edit Account Details</span>
+            <span class="text-[10px] text-stone-400">Save changes below</span>
+          </div>
+          <div>
+            <label class="block text-[10px] font-bold text-stone-600 dark:text-stone-400 mb-0.5">Full Name</label>
+            <input type="text" id="profile-edit-name" required placeholder="Full Name" class="w-full bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-xl px-3 py-1.5 text-xs text-[#2d2a2a] dark:text-white outline-none focus:ring-1 focus:ring-[#e5c1b3]" />
+          </div>
+          <div>
+            <label class="block text-[10px] font-bold text-stone-600 dark:text-stone-400 mb-0.5">Phone Number</label>
+            <input type="text" id="profile-edit-phone" placeholder="+91 98765 43210" class="w-full bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-xl px-3 py-1.5 text-xs text-[#2d2a2a] dark:text-white outline-none focus:ring-1 focus:ring-[#e5c1b3]" />
+          </div>
+          <div>
+            <label class="block text-[10px] font-bold text-stone-600 dark:text-stone-400 mb-0.5">New Password <span class="text-[9px] font-normal text-stone-400">(optional)</span></label>
+            <input type="password" id="profile-edit-password" placeholder="Leave blank to keep current" class="w-full bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-xl px-3 py-1.5 text-xs text-[#2d2a2a] dark:text-white outline-none focus:ring-1 focus:ring-[#e5c1b3]" />
+          </div>
+          <button type="submit" id="btn-save-profile-changes" class="w-full py-2 rounded-xl bg-[#4a3f44] hover:bg-[#5a4f54] text-white font-bold text-xs uppercase tracking-wider transition-colors shadow-xs flex items-center justify-center gap-1.5 cursor-pointer mt-1">
+            <i class="fas fa-save text-[#e5c1b3]"></i> Save Profile Changes
+          </button>
+        </form>
+
+        <div class="space-y-2 text-xs font-semibold">
+          <button type="button" onclick="document.getElementById('user-profile-modal').classList.add('hidden'); window.glowApp?.renderMyOrdersModal()" class="w-full py-2.5 px-4 rounded-xl bg-stone-100 dark:bg-stone-800 hover:bg-stone-200 dark:hover:bg-stone-700 text-[#4a3f44] dark:text-stone-200 transition-colors flex items-center justify-between">
+            <span><i class="fas fa-box text-amber-500 mr-2"></i> My Orders & History</span>
+            <i class="fas fa-chevron-right text-[10px] text-stone-400"></i>
+          </button>
+          <button type="button" onclick="document.getElementById('user-profile-modal').classList.add('hidden'); window.glowApp?.renderWishlistModal()" class="w-full py-2.5 px-4 rounded-xl bg-stone-100 dark:bg-stone-800 hover:bg-stone-200 dark:hover:bg-stone-700 text-[#4a3f44] dark:text-stone-200 transition-colors flex items-center justify-between">
+            <span><i class="fas fa-heart text-rose-500 mr-2"></i> My Wishlist</span>
+            <i class="fas fa-chevron-right text-[10px] text-stone-400"></i>
+          </button>
+          <button type="button" onclick="document.getElementById('user-profile-modal').classList.add('hidden'); window.glowApp?.renderSavedPaymentMethodsModal()" class="w-full py-2.5 px-4 rounded-xl bg-stone-100 dark:bg-stone-800 hover:bg-stone-200 dark:hover:bg-stone-700 text-[#4a3f44] dark:text-stone-200 transition-colors flex items-center justify-between">
+            <span><i class="fas fa-credit-card text-emerald-500 mr-2"></i> Saved Payment Methods</span>
+            <i class="fas fa-chevron-right text-[10px] text-stone-400"></i>
+          </button>
+          <button type="button" onclick="document.getElementById('user-profile-modal').classList.add('hidden'); window.glowApp?.logout()" class="w-full py-2.5 px-4 rounded-xl bg-rose-50 dark:bg-rose-950/40 text-rose-600 hover:bg-rose-100 dark:hover:bg-rose-900/50 transition-colors flex items-center justify-between font-bold">
+            <span><i class="fas fa-sign-out-alt mr-2"></i> Log Out</span>
+            <i class="fas fa-chevron-right text-[10px]"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MODAL: MY WISHLIST                         -->
+  <!-- ========================================== -->
+  <div id="wishlist-modal" class="modal-container fixed inset-0 z-50 bg-black/60 backdrop-blur-xl hidden items-center justify-center p-4">
+    <div class="bg-white/90 dark:bg-stone-900/95 backdrop-blur-2xl rounded-3xl max-w-xl w-full p-6 relative shadow-2xl border border-white/60 dark:border-stone-800 max-h-[85vh] flex flex-col">
+      <button data-action="close-modal" class="absolute top-5 right-5 w-8 h-8 rounded-full bg-white/50 dark:bg-stone-800 text-[#4a3f44] dark:text-white hover:bg-white flex items-center justify-center text-xs shadow-xs">
+        <i class="fas fa-times"></i>
+      </button>
+
+      <div class="flex items-center gap-2 mb-4 border-b border-stone-200 dark:border-stone-800 pb-3">
+        <div class="w-8 h-8 rounded-full bg-rose-100 dark:bg-rose-900/30 flex items-center justify-center text-rose-500">
+          <i class="fas fa-heart text-xs"></i>
+        </div>
+        <div>
+          <h3 class="font-serif text-lg font-bold text-[#4a3f44] dark:text-white">Saved Wishlist</h3>
+          <p class="text-[11px] text-stone-500 dark:text-stone-400">Your favorite DREAM formulas & treatments</p>
+        </div>
+      </div>
+
+      <div id="wishlist-modal-list" class="flex-1 overflow-y-auto space-y-3 pr-1 my-2">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MODAL: MY ORDERS & ORDER TRACKING          -->
+  <!-- ========================================== -->
+  <div id="my-orders-modal" class="modal-container fixed inset-0 z-50 bg-black/60 backdrop-blur-xl hidden items-center justify-center p-4">
+    <div class="bg-white/95 dark:bg-stone-900/95 backdrop-blur-2xl rounded-3xl max-w-2xl w-full p-6 relative shadow-2xl border border-white/60 dark:border-stone-800 max-h-[85vh] flex flex-col">
+      <button data-action="close-modal" class="absolute top-5 right-5 w-8 h-8 rounded-full bg-white/50 dark:bg-stone-800 text-[#4a3f44] dark:text-white hover:bg-white flex items-center justify-center text-xs shadow-xs">
+        <i class="fas fa-times"></i>
+      </button>
+
+      <!-- Header with Order Search / Lookup -->
+      <div class="border-b border-stone-200 dark:border-stone-800 pb-4 mb-4">
+        <div class="flex items-center justify-between gap-4 mb-3">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-full bg-amber-100 dark:bg-amber-900/40 flex items-center justify-center text-amber-600 dark:text-amber-400">
+              <i class="fas fa-box text-sm"></i>
+            </div>
+            <div>
+              <h3 class="font-serif text-xl font-bold text-[#4a3f44] dark:text-white">My Orders</h3>
+              <p class="text-xs text-stone-500 dark:text-stone-400">View order history, status updates, and tracking details</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Order Lookup Form -->
+        <form id="my-orders-lookup-form" class="flex gap-2">
+          <div class="relative flex-1">
+            <i class="fas fa-search absolute left-3 top-2.5 text-stone-400 text-xs"></i>
+            <input type="text" id="order-lookup-input" placeholder="Enter Order # (e.g. ORD-891234)..." class="w-full bg-stone-100 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-xl pl-8 pr-3 py-1.5 text-xs focus:ring-2 focus:ring-[#e5c1b3] outline-none text-[#2d2a2a] dark:text-white" />
+          </div>
+          <button type="submit" class="bg-[#4a3f44] hover:bg-[#5a4f54] text-white px-4 py-1.5 rounded-xl font-bold text-xs transition-colors shrink-0 flex items-center gap-1.5 cursor-pointer">
+            <span>Track</span>
+            <i class="fas fa-search text-[10px]"></i>
+          </button>
+        </form>
+      </div>
+
+      <!-- Order List Container -->
+      <div id="my-orders-modal-list" class="flex-1 overflow-y-auto space-y-4 pr-1 my-1">
+        <!-- Populated dynamically by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MODAL: SAVED PAYMENT METHODS               -->
+  <!-- ========================================== -->
+  <div id="saved-payment-methods-modal" class="modal-container fixed inset-0 z-50 bg-black/60 backdrop-blur-xl hidden items-center justify-center p-4">
+    <div class="bg-white/95 dark:bg-stone-900/95 backdrop-blur-2xl rounded-3xl max-w-md w-full p-6 relative shadow-2xl border border-white/60 dark:border-stone-800 flex flex-col">
+      <button data-action="close-modal" class="absolute top-5 right-5 w-8 h-8 rounded-full bg-white/50 dark:bg-stone-800 text-[#4a3f44] dark:text-white hover:bg-white flex items-center justify-center text-xs shadow-xs">
+        <i class="fas fa-times"></i>
+      </button>
+
+      <div class="flex items-center gap-3 border-b border-stone-200 dark:border-stone-800 pb-4 mb-4">
+        <div class="w-9 h-9 rounded-full bg-emerald-100 dark:bg-emerald-950/40 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
+          <i class="fas fa-credit-card text-sm"></i>
+        </div>
+        <div>
+          <h3 class="font-serif text-xl font-bold text-[#4a3f44] dark:text-white">Saved Payment Methods</h3>
+          <p class="text-xs text-stone-500 dark:text-stone-400">Manage your payment cards and express checkout wallets</p>
+        </div>
+      </div>
+
+      <!-- Payment Cards List -->
+      <div id="saved-cards-list" class="space-y-3 mb-4 max-h-60 overflow-y-auto pr-1">
+        <!-- Populated dynamically by JS -->
+      </div>
+
+      <!-- Add New Payment Method Form -->
+      <form id="add-payment-method-form" class="space-y-3 pt-3 border-t border-stone-200 dark:border-stone-800">
+        <h4 class="text-xs font-bold text-stone-700 dark:text-stone-300 uppercase tracking-wider flex items-center justify-between">
+          <span>Add New Card</span>
+          <span class="text-[10px] text-stone-400 font-normal"><i class="fas fa-lock mr-1 text-emerald-500"></i> Encrypted</span>
+        </h4>
+        <div>
+          <label class="block text-[10px] font-bold text-stone-600 dark:text-stone-400 mb-1">Cardholder Name</label>
+          <input type="text" id="new-card-name" placeholder="Jane Doe" required class="w-full bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-xl px-3 py-2 text-xs text-stone-800 dark:text-white outline-none focus:ring-2 focus:ring-[#e5c1b3]" />
+        </div>
+        <div>
+          <label class="block text-[10px] font-bold text-stone-600 dark:text-stone-400 mb-1">Card Number</label>
+          <input type="text" id="new-card-number" placeholder="4242 4242 4242 4242" maxlength="19" oninput="window.glowApp?.formatCardNumber(this)" required class="w-full bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-xl px-3 py-2 text-xs font-mono text-stone-800 dark:text-white outline-none focus:ring-2 focus:ring-[#e5c1b3]" />
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block text-[10px] font-bold text-stone-600 dark:text-stone-400 mb-1">Expiry Date</label>
+            <input type="text" id="new-card-expiry" placeholder="MM/YY" maxlength="5" oninput="window.glowApp?.formatCardExpiry(this)" required class="w-full bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-xl px-3 py-2 text-xs font-mono text-stone-800 dark:text-white outline-none focus:ring-2 focus:ring-[#e5c1b3]" />
+          </div>
+          <div>
+            <label class="block text-[10px] font-bold text-stone-600 dark:text-stone-400 mb-1">CVC</label>
+            <input type="password" id="new-card-cvc" placeholder="123" maxlength="4" required class="w-full bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-xl px-3 py-2 text-xs font-mono text-stone-800 dark:text-white outline-none focus:ring-2 focus:ring-[#e5c1b3]" />
+          </div>
+        </div>
+        <button type="submit" class="w-full bg-[#4a3f44] hover:bg-[#5a4f54] text-white font-bold py-2.5 rounded-xl text-xs uppercase tracking-wider transition-colors shadow-xs flex items-center justify-center gap-2 cursor-pointer">
+          <i class="fas fa-plus"></i> Save Card
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MODAL: CHECKOUT & ORDER REVIEW             -->
+  <!-- ========================================== -->
+  <div id="checkout-modal" class="modal-container fixed inset-0 z-50 bg-black/60 backdrop-blur-xl hidden items-center justify-center p-3 sm:p-5">
+    <div class="bg-white/95 dark:bg-stone-900/95 backdrop-blur-2xl rounded-3xl max-w-4xl w-full p-4 sm:p-6 relative shadow-2xl border border-white/60 dark:border-stone-800 max-h-[92vh] flex flex-col overflow-hidden">
+      <button data-action="close-modal" class="absolute top-4 right-4 sm:top-5 sm:right-5 w-8 h-8 rounded-full bg-white/70 dark:bg-stone-800 text-[#4a3f44] dark:text-white hover:bg-white flex items-center justify-center text-xs shadow-xs z-20 cursor-pointer">
+        <i class="fas fa-times"></i>
+      </button>
+
+      <!-- Checkout Form View -->
+      <div id="checkout-form-view" class="flex flex-col h-full overflow-hidden">
+        <!-- Header & Progress Stepper -->
+        <div class="border-b border-stone-200 dark:border-stone-800 pb-3 mb-3">
+          <div class="flex items-center justify-between pr-8 mb-2">
+            <div class="flex items-center gap-2">
+              <div class="w-8 h-8 rounded-full bg-[#4a3f44] text-[#e5c1b3] flex items-center justify-center text-xs shadow-xs">
+                <i class="fas fa-lock"></i>
+              </div>
+              <div>
+                <h3 class="font-serif text-lg font-bold text-[#4a3f44] dark:text-white leading-tight">Secure Checkout</h3>
+                <p class="text-[11px] text-stone-500 dark:text-stone-400">Encrypted 256-bit checkout • Express fulfillment</p>
+              </div>
+            </div>
+            <div class="hidden sm:flex items-center gap-1.5 text-[10px] font-bold text-emerald-600 bg-emerald-50 dark:bg-emerald-950/60 dark:text-emerald-400 px-2.5 py-1 rounded-full border border-emerald-200 dark:border-emerald-800">
+              <i class="fas fa-shield-alt"></i> Buyer Protection Guaranteed
+            </div>
+          </div>
+
+          <!-- Checkout Stepper Progress -->
+          <div class="grid grid-cols-3 gap-2 text-center text-[10px] font-bold">
+            <div class="flex items-center justify-center gap-1.5 py-1 px-2 rounded-lg bg-[#e5c1b3]/30 text-[#4a3f44] dark:text-[#e5c1b3] border border-[#e5c1b3]/50">
+              <span class="w-4 h-4 rounded-full bg-[#4a3f44] text-white flex items-center justify-center text-[9px]">1</span>
+              <span>Shipping & Delivery</span>
+            </div>
+            <div class="flex items-center justify-center gap-1.5 py-1 px-2 rounded-lg bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-300">
+              <span class="w-4 h-4 rounded-full bg-stone-300 dark:bg-stone-700 text-stone-700 dark:text-stone-200 flex items-center justify-center text-[9px]">2</span>
+              <span>Sample & Bonus</span>
+            </div>
+            <div class="flex items-center justify-center gap-1.5 py-1 px-2 rounded-lg bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-300">
+              <span class="w-4 h-4 rounded-full bg-stone-300 dark:bg-stone-700 text-stone-700 dark:text-stone-200 flex items-center justify-center text-[9px]">3</span>
+              <span>Payment & Review</span>
+            </div>
+          </div>
+        </div>
+
+        <form id="checkout-form" class="flex-1 overflow-y-auto pr-1 space-y-4">
+          <!-- Express Checkout Speed Buttons -->
+          <div class="bg-gradient-to-r from-stone-50 via-indigo-50/40 to-emerald-50/40 dark:from-stone-800/60 dark:via-indigo-950/20 dark:to-emerald-950/20 p-3.5 rounded-2xl border border-stone-200/80 dark:border-stone-700/80">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-[10px] font-bold uppercase tracking-wider text-stone-500 dark:text-stone-400">Preferred Payment Mode</span>
+              <span class="text-[10px] text-stone-400">100% Encrypted & Safe</span>
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+              <button type="button" onclick="window.glowApp?.selectExpressPayment('Razorpay')" class="bg-indigo-600 hover:bg-indigo-700 text-white font-medium text-xs py-2 px-3 rounded-xl flex items-center justify-center gap-2 cursor-pointer shadow-xs transition-transform active:scale-98">
+                <i class="fas fa-bolt text-[#3395FF]"></i> Pay via Razorpay
+              </button>
+              <button type="button" onclick="window.glowApp?.selectExpressPayment('Cash on Delivery')" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs py-2 px-3 rounded-xl flex items-center justify-center gap-1.5 cursor-pointer shadow-xs transition-transform active:scale-98">
+                <i class="fas fa-hand-holding-usd text-white"></i> Cash on Delivery
+              </button>
+            </div>
+          </div>
+
+          <!-- Two-Column Layout Grid for Desktop -->
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+            <!-- LEFT COLUMN: Shipping, Delivery Speed, Sample, Payment (Cols 7) -->
+            <div class="lg:col-span-7 space-y-4">
+              <!-- Shipping Address -->
+              <div class="bg-stone-50 dark:bg-stone-800/40 p-4 rounded-2xl border border-stone-200/80 dark:border-stone-700/60 space-y-3">
+                <h4 class="text-xs font-bold uppercase tracking-wider text-[#4a3f44] dark:text-stone-200 flex items-center gap-1.5">
+                  <i class="fas fa-truck text-rose-500"></i> Shipping Address
+                </h4>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <label class="block text-[10px] font-bold text-stone-600 dark:text-stone-400 mb-1">Full Name *</label>
+                    <input type="text" id="checkout-name" placeholder="Jane Doe" class="w-full bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-xl px-3 py-2 text-xs text-stone-800 dark:text-white outline-none focus:ring-2 focus:ring-[#e5c1b3]" required />
+                  </div>
+                  <div>
+                    <label class="block text-[10px] font-bold text-stone-600 dark:text-stone-400 mb-1">Email Address *</label>
+                    <input type="email" id="checkout-email" placeholder="jane@example.com" class="w-full bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-xl px-3 py-2 text-xs text-stone-800 dark:text-white outline-none focus:ring-2 focus:ring-[#e5c1b3]" required />
+                  </div>
+                </div>
+                <div>
+                  <label class="block text-[10px] font-bold text-stone-600 dark:text-stone-400 mb-1">Street Address *</label>
+                  <input type="text" id="checkout-address" placeholder="123 Glow Ave, Suite 100" class="w-full bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-xl px-3 py-2 text-xs text-stone-800 dark:text-white outline-none focus:ring-2 focus:ring-[#e5c1b3]" required />
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                  <div>
+                    <label class="block text-[10px] font-bold text-stone-600 dark:text-stone-400 mb-1">City *</label>
+                    <input type="text" id="checkout-city" placeholder="Los Angeles" class="w-full bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-xl px-3 py-2 text-xs text-stone-800 dark:text-white outline-none focus:ring-2 focus:ring-[#e5c1b3]" required />
+                  </div>
+                  <div>
+                    <label class="block text-[10px] font-bold text-stone-600 dark:text-stone-400 mb-1">Zip Code *</label>
+                    <input type="text" id="checkout-zip" placeholder="90001" class="w-full bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-xl px-3 py-2 text-xs text-stone-800 dark:text-white outline-none focus:ring-2 focus:ring-[#e5c1b3]" required />
+                  </div>
+                </div>
+              </div>
+
+              <!-- Delivery Speed Selection -->
+              <div class="bg-stone-50 dark:bg-stone-800/40 p-4 rounded-2xl border border-stone-200/80 dark:border-stone-700/60 space-y-2.5">
+                <h4 class="text-xs font-bold uppercase tracking-wider text-[#4a3f44] dark:text-stone-200 flex items-center gap-1.5">
+                  <i class="fas fa-shipping-fast text-amber-500"></i> Delivery Method
+                </h4>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  <label class="cursor-pointer border border-stone-200 dark:border-stone-700 rounded-xl p-3 bg-white dark:bg-stone-800 flex items-start gap-2.5 transition-all has-[:checked]:border-[#e5c1b3] has-[:checked]:ring-2 has-[:checked]:ring-[#e5c1b3]/40">
+                    <input type="radio" name="delivery_method" value="standard" checked onchange="window.glowApp?.updateCheckoutTotals()" class="mt-0.5 text-[#4a3f44] focus:ring-[#e5c1b3]" />
+                    <div class="text-left flex-1">
+                      <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-stone-800 dark:text-stone-200">Standard Delivery</span>
+                        <span id="delivery-option-standard-price" class="text-xs font-bold text-emerald-600">FREE</span>
+                      </div>
+                      <p class="text-[10px] text-stone-500 dark:text-stone-400">Delivered in 2-4 business days</p>
+                    </div>
+                  </label>
+
+                  <label class="cursor-pointer border border-stone-200 dark:border-stone-700 rounded-xl p-3 bg-white dark:bg-stone-800 flex items-start gap-2.5 transition-all has-[:checked]:border-[#e5c1b3] has-[:checked]:ring-2 has-[:checked]:ring-[#e5c1b3]/40">
+                    <input type="radio" name="delivery_method" value="priority" onchange="window.glowApp?.updateCheckoutTotals()" class="mt-0.5 text-[#4a3f44] focus:ring-[#e5c1b3]" />
+                    <div class="text-left flex-1">
+                      <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-stone-800 dark:text-stone-200">Priority Express</span>
+                        <span class="text-xs font-bold text-stone-800 dark:text-stone-200">₹9.99</span>
+                      </div>
+                      <p class="text-[10px] text-stone-500 dark:text-stone-400">1-2 Days + Insured Packaging</p>
+                    </div>
+                  </label>
+                </div>
+              </div>
+
+              <!-- First Order Free Sample Selection Box -->
+              <div id="checkout-first-order-sample-box" class="bg-gradient-to-br from-[#e5c1b3]/20 via-white dark:via-stone-800 to-rose-500/10 p-4 rounded-2xl border border-[#e5c1b3]/60 dark:border-stone-700/80 space-y-2.5">
+                <div class="flex items-center justify-between">
+                  <h4 class="text-xs font-bold uppercase tracking-wider text-[#4a3f44] dark:text-stone-200 flex items-center gap-1.5">
+                    <i class="fas fa-gift text-rose-500"></i> Free First-Order Sample Bottle
+                  </h4>
+                  <span class="bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 font-bold text-[9px] uppercase px-2 py-0.5 rounded-full border border-emerald-200 dark:border-emerald-800">
+                    1st ORDER EXCLUSIVE
+                  </span>
+                </div>
+                <p class="text-[11px] text-stone-600 dark:text-stone-300">
+                  As a special first-order bonus, select <strong>ANY product</strong> below to receive a deluxe 15ml sample bottle included in your order for free!
+                </p>
+                <div>
+                  <label class="block text-[10px] font-bold text-stone-600 dark:text-stone-400 mb-1">Choose Sample Bottle Product:</label>
+                  <select id="checkout-sample-product-select" class="w-full bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-xl px-3 py-2 text-xs text-stone-800 dark:text-white outline-none focus:ring-2 focus:ring-[#e5c1b3]">
+                    <!-- Dynamically populated with all store products -->
+                  </select>
+                </div>
+              </div>
+
+              <!-- Returning Customer Sample Claimed Box (hidden for 1st order) -->
+              <div id="checkout-returning-customer-notice" class="hidden bg-stone-100 dark:bg-stone-800/60 p-3.5 rounded-2xl border border-stone-200 dark:border-stone-700 flex items-center gap-3 text-xs">
+                <div class="w-8 h-8 rounded-xl bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-400 flex items-center justify-center shrink-0">
+                  <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="text-[11px] text-stone-600 dark:text-stone-300 leading-tight">
+                  <span class="font-bold text-stone-800 dark:text-white block mb-0.5">Welcome Back! (First-Order Sample Claimed)</span>
+                  <span>Free deluxe sample bottle offer applies to new customer first orders only. Thank you for your continued loyalty!</span>
+                </div>
+              </div>
+
+              <!-- Payment Method -->
+              <div class="bg-stone-50 dark:bg-stone-800/40 p-4 rounded-2xl border border-stone-200/80 dark:border-stone-700/60 space-y-3">
+                <div class="flex items-center justify-between">
+                  <h4 class="text-xs font-bold uppercase tracking-wider text-[#4a3f44] dark:text-stone-200 flex items-center gap-1.5">
+                    <i class="fas fa-wallet text-emerald-500"></i> Payment Method
+                  </h4>
+                  <span class="text-[10px] text-stone-400 font-semibold"><i class="fas fa-lock text-emerald-500 mr-1"></i> 256-Bit SSL Encrypted</span>
+                </div>
+
+                <!-- Payment Method Selection Grid (Razorpay & Cash on Delivery only) -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3" id="payment-methods-grid">
+                  <!-- Razorpay (Online Payment: UPI, Cards, NetBanking, Wallets) -->
+                  <label class="cursor-pointer border-2 border-indigo-400 dark:border-indigo-600 rounded-2xl p-3 bg-indigo-50/50 dark:bg-indigo-950/30 flex items-center gap-3 transition-all has-[:checked]:border-indigo-600 has-[:checked]:bg-indigo-100/60 dark:has-[:checked]:bg-indigo-900/60 has-[:checked]:ring-2 has-[:checked]:ring-indigo-400">
+                    <input type="radio" name="payment_method" value="Razorpay" checked onchange="window.glowApp?.togglePaymentFields('Razorpay')" class="sr-only" />
+                    <div class="w-10 h-10 rounded-xl bg-indigo-600 text-white flex items-center justify-center shrink-0 shadow-xs">
+                      <i class="fas fa-bolt text-lg"></i>
+                    </div>
+                    <div class="text-left flex-1">
+                      <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-indigo-950 dark:text-indigo-200">Razorpay</span>
+                        <span class="bg-indigo-200 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-300 text-[9px] font-bold px-1.5 py-0.5 rounded-full">RECOMMENDED</span>
+                      </div>
+                      <p class="text-[10px] text-indigo-700 dark:text-indigo-300">UPI, Cards, NetBanking, Wallets</p>
+                    </div>
+                  </label>
+
+                  <!-- Cash on Delivery -->
+                  <label class="cursor-pointer border-2 border-stone-200 dark:border-stone-700 rounded-2xl p-3 bg-white dark:bg-stone-800 flex items-center gap-3 transition-all has-[:checked]:border-emerald-500 has-[:checked]:bg-emerald-50/60 dark:has-[:checked]:bg-emerald-950/30 has-[:checked]:ring-2 has-[:checked]:ring-emerald-400">
+                    <input type="radio" name="payment_method" value="Cash on Delivery" onchange="window.glowApp?.togglePaymentFields('Cash on Delivery')" class="sr-only" />
+                    <div class="w-10 h-10 rounded-xl bg-emerald-100 dark:bg-emerald-900/60 text-emerald-600 dark:text-emerald-300 flex items-center justify-center shrink-0">
+                      <i class="fas fa-hand-holding-usd text-lg"></i>
+                    </div>
+                    <div class="text-left flex-1">
+                      <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-stone-800 dark:text-stone-200">Cash on Delivery</span>
+                        <span class="bg-stone-200 dark:bg-stone-700 text-stone-700 dark:text-stone-300 text-[9px] font-bold px-1.5 py-0.5 rounded-full">COD</span>
+                      </div>
+                      <p class="text-[10px] text-stone-500 dark:text-stone-400">Pay cash or UPI upon doorstep delivery</p>
+                    </div>
+                  </label>
+                </div>
+
+                <!-- Dynamic Payment Detail Containers -->
+                <!-- Razorpay Details Container -->
+                <div id="payment-details-razorpay" class="p-3.5 rounded-xl bg-gradient-to-br from-indigo-50/80 via-white to-blue-50/80 dark:from-indigo-950/40 dark:via-stone-800 dark:to-blue-950/40 border border-indigo-200 dark:border-indigo-800/80 space-y-2.5">
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                      <div class="w-6 h-6 rounded-lg bg-indigo-600 text-white flex items-center justify-center text-xs font-bold shadow-xs">
+                        <i class="fas fa-bolt"></i>
+                      </div>
+                      <div>
+                        <span class="text-xs font-bold text-indigo-950 dark:text-indigo-200">Razorpay Payment Gateway</span>
+                        <p class="text-[10px] text-indigo-700 dark:text-indigo-300">Instant & secure payment authorization</p>
+                      </div>
+                    </div>
+                    <span class="bg-indigo-100 dark:bg-indigo-900/80 text-indigo-800 dark:text-indigo-200 text-[9px] font-bold px-2 py-0.5 rounded-full border border-indigo-300 dark:border-indigo-700">
+                      OFFICIAL GATEWAY
+                    </span>
+                  </div>
+
+                  <!-- Supported Sub-methods badges -->
+                  <div class="grid grid-cols-4 gap-1.5 text-center text-[10px] font-semibold text-stone-700 dark:text-stone-300 pt-1">
+                    <div class="bg-white/80 dark:bg-stone-800/80 py-1.5 px-1 rounded-lg border border-indigo-100 dark:border-stone-700 flex items-center justify-center gap-1">
+                      <i class="fas fa-mobile-alt text-blue-600"></i> <span>UPI / QR</span>
+                    </div>
+                    <div class="bg-white/80 dark:bg-stone-800/80 py-1.5 px-1 rounded-lg border border-indigo-100 dark:border-stone-700 flex items-center justify-center gap-1">
+                      <i class="fas fa-credit-card text-emerald-600"></i> <span>Cards</span>
+                    </div>
+                    <div class="bg-white/80 dark:bg-stone-800/80 py-1.5 px-1 rounded-lg border border-indigo-100 dark:border-stone-700 flex items-center justify-center gap-1">
+                      <i class="fas fa-university text-amber-600"></i> <span>NetBanking</span>
+                    </div>
+                    <div class="bg-white/80 dark:bg-stone-800/80 py-1.5 px-1 rounded-lg border border-indigo-100 dark:border-stone-700 flex items-center justify-center gap-1">
+                      <i class="fas fa-wallet text-purple-600"></i> <span>Wallets</span>
+                    </div>
+                  </div>
+
+                  <!-- Optional Custom Razorpay Key ID Config Input -->
+                  <div class="pt-2 border-t border-indigo-100 dark:border-stone-700">
+                    <div class="flex items-center justify-between mb-1">
+                      <label class="block text-[10px] font-bold text-stone-600 dark:text-stone-400">
+                        <i class="fas fa-key text-amber-500 mr-1"></i> Razorpay Account Key ID (Optional):
+                      </label>
+                      <span id="razorpay-key-status" class="text-[9px] font-bold text-emerald-600 dark:text-emerald-400">Active</span>
+                    </div>
+                    <div class="flex gap-2">
+                      <input type="text" id="razorpay-custom-key-input" placeholder="rzp_test_... or rzp_live_..." class="flex-1 bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-xl px-3 py-1.5 text-xs text-stone-800 dark:text-white font-mono outline-none focus:ring-2 focus:ring-indigo-400" />
+                      <button type="button" onclick="window.glowApp?.saveRazorpayCustomKey()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-3 py-1.5 rounded-xl text-xs transition-colors shrink-0 cursor-pointer">
+                        Connect Key
+                      </button>
+                    </div>
+                    <p class="text-[9px] text-stone-500 dark:text-stone-400 mt-1">
+                      Enter your personal Razorpay Key ID (`rzp_test_...`) to connect your own Razorpay merchant account, or leave blank to use default mode.
+                    </p>
+                  </div>
+                </div>
+
+                <!-- COD Preview -->
+                <div id="payment-details-cod" class="hidden p-3 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 text-center space-y-1">
+                  <i class="fas fa-hand-holding-usd text-xl text-emerald-500"></i>
+                  <p class="text-xs font-bold text-emerald-900 dark:text-emerald-200">Cash on Delivery (COD)</p>
+                  <p class="text-[10px] text-emerald-700 dark:text-emerald-300">Pay directly with cash or UPI when your package arrives at your doorstep.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- RIGHT COLUMN: Order Items Review, Promo Code & Total (Cols 5) -->
+            <div class="lg:col-span-5 space-y-4">
+              <!-- Cart Items Summary Review Box -->
+              <div class="bg-stone-50 dark:bg-stone-800/40 p-4 rounded-2xl border border-stone-200/80 dark:border-stone-700/60 space-y-3">
+                <div class="flex items-center justify-between border-b border-stone-200 dark:border-stone-700 pb-2">
+                  <h4 class="text-xs font-bold uppercase tracking-wider text-[#4a3f44] dark:text-stone-200 flex items-center gap-1.5">
+                    <i class="fas fa-shopping-bag text-[#e5c1b3]"></i> Order Items
+                  </h4>
+                  <span id="checkout-items-count-badge" class="bg-stone-200 dark:bg-stone-700 text-stone-700 dark:text-stone-200 text-[10px] font-bold px-2 py-0.5 rounded-full">0 Items</span>
+                </div>
+                <div id="checkout-items-preview-list" class="max-h-48 overflow-y-auto space-y-2.5 pr-1 divide-y divide-stone-100 dark:divide-stone-800">
+                  <!-- Dynamically populated cart items preview -->
+                </div>
+              </div>
+
+              <!-- Promo / Coupon Code Applicator -->
+              <div class="bg-stone-50 dark:bg-stone-800/40 p-3.5 rounded-2xl border border-stone-200/80 dark:border-stone-700/60 space-y-2">
+                <label class="block text-[10px] font-bold uppercase tracking-wider text-stone-600 dark:text-stone-400">Promo Code or Gift Card</label>
+                <div class="flex gap-2">
+                  <input type="text" id="checkout-promo-input" placeholder="Try GLOW10 or WELCOME20" class="flex-1 uppercase bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-xl px-3 py-1.5 text-xs text-stone-800 dark:text-white outline-none focus:ring-2 focus:ring-[#e5c1b3]" />
+                  <button type="button" onclick="window.glowApp?.applyPromoCode()" class="bg-[#4a3f44] hover:bg-[#5a4f54] text-white font-bold px-3 py-1.5 rounded-xl text-xs transition-colors cursor-pointer shrink-0">
+                    Apply
+                  </button>
+                </div>
+                <div id="checkout-promo-status" class="hidden text-[10px] font-bold flex items-center gap-1"></div>
+              </div>
+
+              <!-- Order Summary Breakdown Box -->
+              <div class="bg-stone-100 dark:bg-stone-800/80 p-4 rounded-2xl space-y-2 text-xs">
+                <div class="flex justify-between text-stone-600 dark:text-stone-300">
+                  <span>Subtotal</span>
+                  <span id="checkout-summary-subtotal">₹0.00</span>
+                </div>
+                <div id="checkout-summary-sample-line" class="flex justify-between text-emerald-600 dark:text-emerald-400 font-medium">
+                  <span>First-Order Gift Sample</span>
+                  <span class="font-bold">₹0.00 FREE</span>
+                </div>
+                <div id="checkout-summary-discount-line" class="hidden flex justify-between text-rose-600 dark:text-rose-400 font-medium">
+                  <span>Promo Discount (<span id="checkout-summary-promo-code"></span>)</span>
+                  <span id="checkout-summary-discount-amount">-₹0.00</span>
+                </div>
+                <div class="flex justify-between text-stone-600 dark:text-stone-300">
+                  <span>Estimated Shipping</span>
+                  <span id="checkout-summary-shipping">₹0.00</span>
+                </div>
+                <div class="flex justify-between text-stone-600 dark:text-stone-300">
+                  <span>Est. Tax (8%)</span>
+                  <span id="checkout-summary-tax">₹0.00</span>
+                </div>
+                <div class="flex justify-between font-bold text-base text-[#4a3f44] dark:text-white pt-2.5 border-t border-stone-200 dark:border-stone-700">
+                  <span>Total Amount</span>
+                  <span id="checkout-summary-total" class="font-serif">₹0.00</span>
+                </div>
+              </div>
+
+              <!-- Primary Submit Button -->
+              <button type="submit" id="btn-place-order" class="w-full bg-[#4a3f44] hover:bg-[#5a4f54] text-white font-bold py-3.5 rounded-xl transition-all text-xs uppercase tracking-widest shadow-lg hover:shadow-xl flex items-center justify-center gap-2 cursor-pointer active:scale-98">
+                <i class="fas fa-lock text-xs"></i> Place Order Now
+              </button>
+
+              <!-- Trust Badges Bar -->
+              <div class="grid grid-cols-3 gap-2 pt-1 text-center text-[9px] text-stone-500 dark:text-stone-400 font-medium">
+                <div class="flex flex-col items-center gap-1">
+                  <i class="fas fa-shield-alt text-emerald-500 text-sm"></i>
+                  <span>30-Day Guarantee</span>
+                </div>
+                <div class="flex flex-col items-center gap-1">
+                  <i class="fas fa-[#e5c1b3] fa-leaf text-rose-500 text-sm"></i>
+                  <span>Clean Biocompatible</span>
+                </div>
+                <div class="flex flex-col items-center gap-1">
+                  <i class="fas fa-box-open text-amber-500 text-sm"></i>
+                  <span>Carbon-Neutral</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <!-- Checkout Success View -->
+      <div id="checkout-success-view" class="hidden flex-col items-center text-center py-8 space-y-4">
+        <div class="w-16 h-16 rounded-full bg-emerald-100 dark:bg-emerald-950/50 text-emerald-500 flex items-center justify-center text-2xl shadow-md">
+          <i class="fas fa-check"></i>
+        </div>
+        <h3 class="font-serif text-xl font-bold text-[#4a3f44] dark:text-white">Thank You for Your Order!</h3>
+        <p class="text-xs text-stone-600 dark:text-stone-300 max-w-sm">Your DREAM formula order has been confirmed and is currently being prepared for shipment.</p>
+
+        <div class="bg-stone-50 dark:bg-stone-800/60 border border-stone-200 dark:border-stone-700 rounded-2xl p-4 w-full max-w-md text-left space-y-2 text-xs">
+          <div class="flex justify-between">
+            <span class="text-stone-500">Order Number:</span>
+            <span id="order-success-num" class="font-mono font-bold text-stone-900 dark:text-white">GLOW-123456</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-stone-500">Tracking Number:</span>
+            <span id="order-success-tracking" class="font-mono font-bold text-emerald-600">TRK-987654321</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-stone-500">Estimated Delivery:</span>
+            <span class="font-bold text-stone-800 dark:text-stone-200">2 - 4 Business Days</span>
+          </div>
+          <div id="order-success-sample-note" class="hidden bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-300 p-2.5 rounded-xl text-xs items-center gap-2 mt-1">
+            <i class="fas fa-gift text-sm text-emerald-500 shrink-0"></i>
+            <span id="order-success-sample-text">Includes 1x Complimentary First-Order Deluxe Sample Bottle!</span>
+          </div>
+        </div>
+
+        <button type="button" onclick="document.getElementById('checkout-modal').classList.add('hidden')" class="bg-[#4a3f44] hover:bg-[#5a4f54] text-white font-bold py-3 px-8 rounded-xl text-xs uppercase tracking-widest shadow-md transition-colors">
+          Continue Shopping
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- CART SLIDE-OVER DRAWER                     -->
+  <!-- ========================================== -->
+  <div id="cart-drawer" class="fixed inset-y-0 right-0 z-50 w-full max-w-md bg-white/90 dark:bg-stone-900/95 backdrop-blur-2xl shadow-2xl transition-transform duration-300 translate-x-full flex flex-col border-l border-white/60 dark:border-stone-800">
+    <div class="p-4 bg-[#4a3f44] text-white flex justify-between items-center border-b border-white/10">
+      <h3 class="font-bold text-xs uppercase tracking-widest flex items-center gap-2">
+        <i class="fas fa-shopping-bag text-[#e5c1b3]"></i> Shopping Bag
+      </h3>
+      <button data-action="toggle-cart" class="text-stone-300 hover:text-white text-base"><i class="fas fa-times"></i></button>
+    </div>
+
+    <!-- First Order Free Sample Promo Banner in Cart -->
+    <div class="bg-gradient-to-r from-[#e5c1b3]/30 via-rose-500/10 to-[#e5c1b3]/30 dark:from-stone-800 dark:to-stone-800 border-b border-[#e5c1b3]/50 dark:border-stone-700 px-4 py-2.5 flex items-center gap-2.5 text-xs">
+      <i class="fas fa-gift text-rose-500 text-sm shrink-0"></i>
+      <div class="leading-tight">
+        <span class="font-bold text-[#4a3f44] dark:text-white block">First Order Free Gift!</span>
+        <span class="text-[10px] text-stone-600 dark:text-stone-300">Pick a free deluxe sample bottle of ANY formula at checkout ($0.00).</span>
+      </div>
+    </div>
+
+    <!-- Items List -->
+    <div id="cart-drawer-list" class="flex-1 p-4 overflow-y-auto space-y-3">
+      <!-- Populated by JS -->
+    </div>
+
+    <!-- Footer Subtotal -->
+    <div class="p-4 border-t border-white/40 dark:border-stone-800 bg-white/40 dark:bg-stone-950/60 backdrop-blur-md space-y-3">
+      <div class="flex justify-between font-bold text-xs uppercase tracking-wider text-[#4a3f44] dark:text-white">
+        <span>Subtotal</span>
+        <span id="cart-drawer-subtotal">$0.00</span>
+      </div>
+      <button id="btn-cart-checkout" onclick="window.glowApp?.openCheckoutModal()" class="w-full bg-[#4a3f44] hover:bg-[#5a4f54] text-white font-bold py-3.5 rounded-xl transition-colors text-xs uppercase tracking-widest shadow-md flex items-center justify-center gap-2">
+        <i class="fas fa-lock text-xs"></i> <span>Proceed To Checkout</span>
+      </button>
+    </div>
+  </div>
+
+
+  <!-- App Scripts -->
+  <script src="/assets/js/beautybot.js"></script>
+  <script src="/assets/js/skin-analyzer.js"></script>
+  <script src="/assets/js/app.js"></script>
+</body>
+</html>
