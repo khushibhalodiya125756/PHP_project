@@ -1,0 +1,6 @@
+{
+  "name": "DREAM - Cosmetic & Skincare E-Commerce",
+  "description": "AI-Powered Cosmetic & Skincare E-Commerce Platform featuring AI Skin Analyzer, BeautyBot Chatbot, Customer & Admin Panels.",
+  "requestFramePermissions": ["camera"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
