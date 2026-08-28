@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 60" fill="none">
+  <defs>
+    <linearGradient id="dreamGradFull" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f8ede8" />
+      <stop offset="35%" stop-color="#e5c1b3" />
+      <stop offset="75%" stop-color="#b87b68" />
+      <stop offset="100%" stop-color="#4a3f44" />
+    </linearGradient>
+    <linearGradient id="goldGlowFull" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#f5d6ca" />
+      <stop offset="100%" stop-color="#d49b88" />
+    </linearGradient>
+    <filter id="softGlowFull" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="2" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Logo Mark Icon -->
+  <g transform="translate(4, 2) scale(0.56)">
+    <!-- Droplet / Crescent Ring -->
+    <path d="M50 10 C74 10 88 28 88 52 C88 72 71 88 50 88 C30 88 14 72 14 52 C14 36 24 22 38 15 C34 24 35 37 43 45 C52 53 65 54 73 46 C74 61 63 76 48 76 C33 76 24 64 24 50 C24 34 36 19 50 10 Z" fill="url(#dreamGradFull)" />
+    <!-- Sparkle Star -->
+    <path d="M50 26 L52.8 37.2 L64 40 L52.8 42.8 L50 54 L47.2 42.8 L36 40 L47.2 37.2 Z" fill="#ffffff" filter="url(#softGlowFull)" />
+    <circle cx="50" cy="40" r="2.2" fill="url(#goldGlowFull)" />
+  </g>
+
+  <!-- Wordmark: DREAM -->
+  <text x="68" y="38" font-family="'Playfair Display', Georgia, serif" font-size="28" font-weight="700" letter-spacing="4" fill="#4a3f44" class="dark-text-white">DREAM</text>
+
+  <!-- Subtitle: COSMETICS & SKINCARE -->
+  <text x="70" y="50" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="7.5" font-weight="700" letter-spacing="2.5" fill="#8c7a82">COSMETICS &amp; SKINCARE</text>
+</svg>
