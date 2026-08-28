@@ -1,0 +1,632 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "email": "jane@example.com",
+      "password_hash": "password123",
+      "full_name": "Jane Doe",
+      "phone": "+1 (555) 234-5678",
+      "avatar_url": "",
+      "status": "active",
+      "created_at": "2026-08-20T15:42:54.045Z"
+    }
+  ],
+  "admins": [
+    {
+      "id": 1,
+      "username": "admin",
+      "full_name": "Store Owner & Administrator",
+      "email": "admin@dream.com",
+      "phone": "+91 98765 43210",
+      "password_hash": "$2y$10$e0MYzXyjpJS7Pd0RVvHwHe1e8E0KkC1J/mY9o5pC7rS9s9y6e4s0.",
+      "role": "super_admin",
+      "avatar_url": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200",
+      "created_at": "2026-08-20T15:42:54.045Z"
+    }
+  ],
+  "store_settings": {
+    "store_name": "DREAM Skincare",
+    "tagline": "Science-Backed Botanical Formulations",
+    "currency_code": "INR",
+    "currency_symbol": "₹",
+    "tax_rate": 8,
+    "free_shipping_threshold": 50,
+    "standard_shipping_fee": 5.99,
+    "support_email": "support@dream.com",
+    "support_phone": "+91 (800) 456-7890",
+    "store_address": "104 Bloom Plaza, Luxury Beauty District, Mumbai, MH 400001",
+    "ai_bot_name": "BeautyBot — Expert Skincare Advisor",
+    "ai_system_prompt": "Provide knowledgeable, gentle cosmetic skincare advice, routine suggestions, ingredient breakdowns, and product recommendations from the catalog. DO NOT provide medical diagnoses.",
+    "banner_announcement": "Complimentary luxury sample bottle with every first order over ₹500 • Free express shipping on orders over ₹50"
+  },
+  "categories": [
+    {
+      "name": "Mack up",
+      "slug": "mack-up",
+      "description": "",
+      "image_url": "https://i.pinimg.com/736x/03/04/9a/03049a0d2b32cc50a086e3c396ac9eb4.jpg",
+      "status": "active",
+      "id": 1,
+      "created_at": "2026-08-20T15:56:04.774Z",
+      "subcategories": [
+        {
+          "id": 101,
+          "name": "Lipstick",
+          "slug": "lipstick",
+          "description": "",
+          "image_url": "https://i.pinimg.com/736x/fb/84/28/fb84283996b6fcfbc226a3cf7af56160.jpg",
+          "icon": ""
+        },
+        {
+          "id": 102,
+          "name": "Foundation",
+          "slug": "foundation",
+          "description": "",
+          "image_url": "https://i.pinimg.com/1200x/9b/3a/e5/9b3ae5fb897da6d18b6b3b01950d09b6.jpg",
+          "icon": ""
+        },
+        {
+          "id": 103,
+          "name": "Mascara",
+          "slug": "mascara",
+          "description": "",
+          "image_url": "https://i.pinimg.com/736x/50/76/18/50761868929df6009e48c437f243c268.jpg",
+          "icon": ""
+        },
+        {
+          "id": 104,
+          "name": "Blush",
+          "slug": "blush",
+          "description": "",
+          "image_url": "https://i.pinimg.com/736x/58/a1/09/58a10975126b061fca1e5a0a96c600b3.jpg",
+          "icon": ""
+        },
+        {
+          "id": 105,
+          "name": " Tools and brushes",
+          "slug": "tools-and-brushes",
+          "description": "",
+          "image_url": "https://i.pinimg.com/736x/61/ae/4e/61ae4ea603f447f3c70f0c8a62f60a79.jpg",
+          "icon": ""
+        }
+      ]
+    },
+    {
+      "name": "Hair care",
+      "slug": "hair-care",
+      "description": "",
+      "image_url": "https://i.pinimg.com/736x/c8/0f/be/c80fbec28bdad8066aa290f0a4fd729f.jpg",
+      "status": "active",
+      "id": 3,
+      "created_at": "2026-08-20T15:58:48.954Z",
+      "subcategories": [
+        {
+          "id": 301,
+          "name": "Shampoo",
+          "slug": "shampoo",
+          "description": "",
+          "image_url": "https://i.pinimg.com/736x/5d/aa/71/5daa71d84c15531d8e3baad871e043ae.jpg",
+          "icon": ""
+        },
+        {
+          "id": 302,
+          "name": "Conditioner",
+          "slug": "conditioner",
+          "description": "",
+          "image_url": "https://i.pinimg.com/1200x/59/d5/99/59d5990985698794dae3c4c965cbb3f7.jpg",
+          "icon": ""
+        },
+        {
+          "id": 303,
+          "name": "Hair Mask ",
+          "slug": "hair-mask",
+          "description": "",
+          "image_url": "https://i.pinimg.com/1200x/d5/17/33/d517330436055c8f83d51478a593ff3e.jpg",
+          "icon": ""
+        },
+        {
+          "id": 304,
+          "name": "Serum",
+          "slug": "serum",
+          "description": "",
+          "image_url": "https://i.pinimg.com/1200x/b4/3a/00/b43a004b97d785cfb87112df7278772b.jpg",
+          "icon": ""
+        },
+        {
+          "id": 305,
+          "name": "Hair oil",
+          "slug": "hair-oil",
+          "description": "",
+          "image_url": "https://i.pinimg.com/736x/0d/77/33/0d773397923dcd7f5a12f613b147a195.jpg",
+          "icon": ""
+        }
+      ]
+    },
+    {
+      "name": "Fragrance",
+      "slug": "fragrance",
+      "description": "",
+      "image_url": "https://i.pinimg.com/736x/07/71/ed/0771edee4246abc5f034c3be2e739e74.jpg",
+      "status": "active",
+      "id": 5,
+      "created_at": "2026-08-20T16:01:11.468Z",
+      "subcategories": [
+        {
+          "id": 502,
+          "name": "Minis",
+          "slug": "minis",
+          "description": "",
+          "image_url": "https://i.pinimg.com/736x/00/d6/69/00d6695798d388166ae7405a4cb8caa5.jpg",
+          "icon": ""
+        },
+        {
+          "id": 503,
+          "name": "Special Collection",
+          "slug": "special-collection",
+          "description": "",
+          "image_url": "https://i.pinimg.com/736x/79/3a/d1/793ad1b1626b7f536f85fb1b98011c0f.jpg",
+          "icon": ""
+        },
+        {
+          "id": 504,
+          "name": "Women",
+          "slug": "women",
+          "description": "",
+          "image_url": "https://i.pinimg.com/736x/45/4f/ca/454fca30058b9be6a9829d6ee3d32a17.jpg",
+          "icon": ""
+        },
+        {
+          "id": 505,
+          "name": "Men",
+          "slug": "men",
+          "description": "",
+          "image_url": "https://i.pinimg.com/736x/ae/6c/4a/ae6c4a38b14ec8cb6c0ed12b1fe34e92.jpg",
+          "icon": ""
+        }
+      ]
+    },
+    {
+      "name": "Skin care",
+      "slug": "skin-care",
+      "description": "",
+      "image_url": "https://i.pinimg.com/736x/c1/31/ec/c131ec684397ade5bc350f235caea578.jpg",
+      "status": "active",
+      "id": 6,
+      "created_at": "2026-08-21T15:20:34.241Z",
+      "subcategories": [
+        {
+          "id": 601,
+          "name": "Moisturiser ",
+          "slug": "moisturiser",
+          "description": "",
+          "image_url": "https://i.pinimg.com/736x/b7/7d/4f/b77d4f223734fc4a20a6b13ccb9ab04a.jpg",
+          "icon": ""
+        },
+        {
+          "id": 602,
+          "name": " Sunscreen",
+          "slug": "sunscreen",
+          "description": "",
+          "image_url": "https://i.pinimg.com/736x/70/cf/98/70cf98569e380ec6fcdd2e44ce0e666d.jpg",
+          "icon": ""
+        },
+        {
+          "id": 603,
+          "name": "  Cleanser",
+          "slug": "cleanser",
+          "description": "",
+          "image_url": "https://i.pinimg.com/736x/31/c2/52/31c2528fd84debe2fee61804716de5cb.jpg",
+          "icon": ""
+        },
+        {
+          "id": 604,
+          "name": " Serum",
+          "slug": "serum",
+          "description": "",
+          "image_url": "https://i.pinimg.com/736x/bf/78/59/bf7859003e47d036a1f93d40bc20bf52.jpg",
+          "icon": ""
+        },
+        {
+          "id": 605,
+          "name": "Mask",
+          "slug": "mask",
+          "description": "",
+          "image_url": "https://i.pinimg.com/736x/a8/1f/7c/a81f7cc17c713370d9b2ed40db82fe65.jpg",
+          "icon": ""
+        }
+      ]
+    },
+    {
+      "name": "Bath and body",
+      "slug": "bath-and-body",
+      "description": "",
+      "image_url": "https://i.pinimg.com/736x/4a/60/32/4a60323ec9ee00f401fbfb7b3ef0878a.jpg",
+      "status": "active",
+      "id": 7,
+      "created_at": "2026-08-21T15:49:22.262Z",
+      "subcategories": [
+        {
+          "id": 701,
+          "name": "Shower gel",
+          "slug": "shower-gel",
+          "description": "",
+          "image_url": "https://i.pinimg.com/1200x/0c/51/9a/0c519a0318f112a545f48e732c7a1795.jpg",
+          "icon": ""
+        },
+        {
+          "id": 702,
+          "name": " Lotion or Cream",
+          "slug": "lotion-or-cream",
+          "description": "",
+          "image_url": "https://i.pinimg.com/1200x/54/f5/c8/54f5c8ec94c8fbe9d1963454e8043016.jpg",
+          "icon": ""
+        },
+        {
+          "id": 703,
+          "name": "Roll ons",
+          "slug": "roll-ons",
+          "description": "",
+          "image_url": "https://i.pinimg.com/736x/f8/83/95/f8839532ef2261b6576d6647f429b615.jpg",
+          "icon": ""
+        },
+        {
+          "id": 704,
+          "name": "Scrub",
+          "slug": "scrub",
+          "description": "",
+          "image_url": "https://i.pinimg.com/736x/a8/d0/9e/a8d09e90bb6725a547c8fde600098045.jpg",
+          "icon": ""
+        }
+      ]
+    }
+  ],
+  "brands": [
+    {
+      "id": 1,
+      "name": "GlowLab",
+      "slug": "glowlab",
+      "logo_url": "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=200",
+      "created_at": "2026-08-20T15:42:54.045Z"
+    },
+    {
+      "id": 2,
+      "name": "Botanical Lux",
+      "slug": "botanical-lux",
+      "logo_url": "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=200",
+      "created_at": "2026-08-20T15:42:54.045Z"
+    },
+    {
+      "id": 3,
+      "name": "Aura Derm",
+      "slug": "aura-derm",
+      "logo_url": "https://images.unsplash.com/photo-1608248597261-e4d0450cbf1c?w=200",
+      "created_at": "2026-08-20T15:42:54.045Z"
+    },
+    {
+      "id": 4,
+      "name": "PureRadiance",
+      "slug": "pureradiance",
+      "logo_url": "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=200",
+      "created_at": "2026-08-20T15:42:54.045Z"
+    },
+    {
+      "id": 5,
+      "name": "ZenSkin",
+      "slug": "zenskin",
+      "logo_url": "https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?w=200",
+      "created_at": "2026-08-20T15:42:54.045Z"
+    }
+  ],
+  "products": [
+    {
+      "id": 2,
+      "sku": "GLOW-1994",
+      "name": "Lancome Idole Eau De Parfum Best Seller Luxury Perfume With Four Roses, Jasmine and Chypre Accord",
+      "slug": "lancome-idole-eau-de-parfum-best-seller-luxury-perfume-with-four-roses-jasmine-and-chypre-accord",
+      "brand_id": 1,
+      "category_id": 5,
+      "sub_category": "Women",
+      "sub_category_slug": "women",
+      "original_price": 10500,
+      "discounted_price": null,
+      "stock_qty": 20,
+      "rating_avg": 5,
+      "review_count": 0,
+      "main_image": "https://images-static.nykaa.com/media/catalog/product/6/6/66e95e6LANCO00000281_1x.jpg?tr=w-344,h-344,cm-pad_resize",
+      "description": "",
+      "ingredients": "",
+      "benefits": "",
+      "how_to_use": "",
+      "suitable_skin_types": "Oily,Dry,Combination,Sensitive,Normal",
+      "skin_concerns": "Dryness,Redness",
+      "is_featured": false,
+      "is_bestseller": false,
+      "is_new_arrival": false,
+      "status": "active",
+      "created_at": "2026-08-21T17:45:35.293Z"
+    },
+    {
+      "id": 3,
+      "sku": "GLOW-4029",
+      "name": "Moi Cherry Bomb Long-Lasting Eau De Parfum For Women (Sweet, Juicy, Gourmand, Smoky, Day+Night)",
+      "slug": "moi-cherry-bomb-long-lasting-eau-de-parfum-for-women-sweet-juicy-gourmand-smoky-day-night",
+      "brand_id": 1,
+      "category_id": 5,
+      "sub_category": "Women",
+      "sub_category_slug": "women",
+      "original_price": 809,
+      "discounted_price": null,
+      "stock_qty": 25,
+      "rating_avg": 5,
+      "review_count": 0,
+      "main_image": "https://images-static.nykaa.com/media/catalog/product/f/0/f07a22bNYKAF00000028_r1.jpg",
+      "description": "",
+      "ingredients": "",
+      "benefits": "",
+      "how_to_use": "",
+      "suitable_skin_types": "Oily,Dry,Combination,Sensitive,Normal",
+      "skin_concerns": "Dryness,Redness",
+      "is_featured": false,
+      "is_bestseller": false,
+      "is_new_arrival": false,
+      "status": "active",
+      "created_at": "2026-08-22T04:31:50.721Z"
+    },
+    {
+      "sku": "GLOW-2645",
+      "name": "Yves Saint Laurent Libre Eau De Parfum With Lavender Essence, Orange Blossom, Musk & Warm Vanilla",
+      "slug": "yves-saint-laurent-libre-eau-de-parfum-with-lavender-essence-orange-blossom-musk-warm-vanilla",
+      "brand_id": 1,
+      "category_id": 5,
+      "sub_category": "Minis",
+      "sub_category_slug": "minis",
+      "original_price": 2800,
+      "discounted_price": null,
+      "stock_qty": 50,
+      "rating_avg": 5,
+      "review_count": 0,
+      "main_image": "https://images-static.nykaa.com/media/catalog/product/8/1/81e24abYVESS00000024_1.jpg?tr=w-344,h-344,cm-pad_resize",
+      "description": "",
+      "ingredients": "",
+      "benefits": "",
+      "how_to_use": "",
+      "suitable_skin_types": "Oily,Dry,Combination,Sensitive,Normal",
+      "skin_concerns": "Dryness,Redness",
+      "is_featured": false,
+      "is_bestseller": false,
+      "is_new_arrival": false,
+      "status": "active",
+      "id": 4,
+      "created_at": "2026-08-22T08:22:26.661Z"
+    },
+    {
+      "sku": "GLOW-5093",
+      "name": "Moi Raison D'Etre Sensual Floral Mini Perfume | Travel Size Long-Lasting Vanilla EDP For Women",
+      "slug": "moi-raison-d-etre-sensual-floral-mini-perfume-travel-size-long-lasting-vanilla-edp-for-women",
+      "brand_id": 1,
+      "category_id": 5,
+      "sub_category": "Minis",
+      "sub_category_slug": "minis",
+      "original_price": 400,
+      "discounted_price": null,
+      "stock_qty": 30,
+      "rating_avg": 5,
+      "review_count": 0,
+      "main_image": "https://images-static.nykaa.com/media/catalog/product/d/3/d3289988904245710729_0.jpg",
+      "description": "",
+      "ingredients": "",
+      "benefits": "",
+      "how_to_use": "",
+      "suitable_skin_types": "Oily,Dry,Combination,Sensitive,Normal",
+      "skin_concerns": "Dryness,Redness",
+      "is_featured": false,
+      "is_bestseller": false,
+      "is_new_arrival": false,
+      "status": "active",
+      "id": 5,
+      "created_at": "2026-08-22T08:23:46.328Z"
+    },
+    {
+      "sku": "GLOW-4371",
+      "name": "Kayali Eden Plush Pear Eau De Parfum",
+      "slug": "kayali-eden-plush-pear-eau-de-parfum",
+      "brand_id": 1,
+      "category_id": 5,
+      "sub_category": "Minis",
+      "sub_category_slug": "minis",
+      "original_price": 2600,
+      "discounted_price": null,
+      "stock_qty": 25,
+      "rating_avg": 5,
+      "review_count": 0,
+      "main_image": "https://images-static.nykaa.com/media/catalog/product/4/c/4c306a86294018408680_1.jpg",
+      "description": "",
+      "ingredients": "",
+      "benefits": "",
+      "how_to_use": "",
+      "suitable_skin_types": "Oily,Dry,Combination,Sensitive,Normal",
+      "skin_concerns": "Dryness,Redness",
+      "is_featured": false,
+      "is_bestseller": false,
+      "is_new_arrival": false,
+      "status": "active",
+      "id": 6,
+      "created_at": "2026-08-22T08:24:32.994Z"
+    },
+    {
+      "sku": "GLOW-1480",
+      "name": "Plum BodyLovin Vanilla Vibes Eau De Parfum - Long Lasting Warm Vanilla Perfume",
+      "slug": "plum-bodylovin-vanilla-vibes-eau-de-parfum-long-lasting-warm-vanilla-perfume",
+      "brand_id": 1,
+      "category_id": 5,
+      "sub_category": "Minis",
+      "sub_category_slug": "minis",
+      "original_price": 300,
+      "discounted_price": null,
+      "stock_qty": 25,
+      "rating_avg": 5,
+      "review_count": 0,
+      "main_image": "https://images-static.nykaa.com/media/catalog/product/d/4/d4efa8aPLUMX00000286_01.jpg",
+      "description": "",
+      "ingredients": "",
+      "benefits": "",
+      "how_to_use": "",
+      "suitable_skin_types": "Oily,Dry,Combination,Sensitive,Normal",
+      "skin_concerns": "Dryness,Redness",
+      "is_featured": false,
+      "is_bestseller": false,
+      "is_new_arrival": false,
+      "status": "active",
+      "id": 7,
+      "created_at": "2026-08-22T08:25:09.074Z"
+    }
+  ],
+  "reviews": [],
+  "wishlists": [],
+  "cart": [
+    {
+      "session_id": "session-1786454266580",
+      "product_id": 3,
+      "quantity": 1,
+      "id": 1,
+      "created_at": "2026-08-22T08:26:29.649Z"
+    }
+  ],
+  "addresses": [],
+  "orders": [
+    {
+      "order_number": "GLOW-171551",
+      "user_id": 1,
+      "customer_name": "Test Customer",
+      "customer_email": "test@example.com",
+      "subtotal": 10500,
+      "discount_amount": 0,
+      "tax_amount": 840,
+      "shipping_fee": 0,
+      "total_amount": 11340,
+      "coupon_code": "",
+      "order_status": "Delivered",
+      "payment_method": "Cash on Delivery",
+      "payment_status": "pending",
+      "shipping_address": "123 Test St, Test City, 12345",
+      "tracking_number": "TRK-737665894",
+      "id": 1,
+      "created_at": "2026-08-22T04:54:24.748Z"
+    },
+    {
+      "order_number": "GLOW-179888",
+      "user_id": 1,
+      "customer_name": "Tirth Patel",
+      "customer_email": "tp5084846@gmail.com",
+      "subtotal": 809,
+      "discount_amount": 0,
+      "tax_amount": 64.72,
+      "shipping_fee": 0,
+      "total_amount": 873.72,
+      "coupon_code": "",
+      "order_status": "Placed",
+      "payment_method": "Cash on Delivery",
+      "payment_status": "pending",
+      "shipping_address": "B-604 Patel Hights Uma Township, Morbi, 363642",
+      "tracking_number": "TRK-299822612",
+      "id": 2,
+      "created_at": "2026-08-22T08:29:28.733Z"
+    },
+    {
+      "order_number": "GLOW-849793",
+      "user_id": 1,
+      "customer_name": "Jane Doe",
+      "customer_email": "jane@example.com",
+      "subtotal": 48,
+      "discount_amount": 0,
+      "tax_amount": 3.84,
+      "shipping_fee": 5.99,
+      "total_amount": 57.83,
+      "coupon_code": "",
+      "order_status": "Placed",
+      "payment_method": "COD",
+      "payment_status": "pending",
+      "shipping_address": "123 Blossom Way, Los Angeles, CA 90001",
+      "tracking_number": "TRK-145509687",
+      "id": 3,
+      "created_at": "2026-08-22T08:33:30.163Z"
+    }
+  ],
+  "order_items": [
+    {
+      "product_id": 2,
+      "product_name": "Lancome Idole",
+      "unit_price": 10500,
+      "quantity": 1,
+      "total_price": 10500,
+      "id": 1,
+      "order_id": 1
+    },
+    {
+      "product_id": 3,
+      "product_name": "Moi Cherry Bomb Long-Lasting Eau De Parfum For Women (Sweet, Juicy, Gourmand, Smoky, Day+Night)",
+      "product_image": "https://images-static.nykaa.com/media/catalog/product/f/0/f07a22bNYKAF00000028_r1.jpg",
+      "unit_price": 809,
+      "quantity": 1,
+      "total_price": 809,
+      "id": 2,
+      "order_id": 2
+    },
+    {
+      "product_id": 7,
+      "product_name": "[FREE GIFT] Sample Bottle - Plum BodyLovin Vanilla Vibes Eau De Parfum - Long Lasting Warm Vanilla Perfume",
+      "product_image": "https://images-static.nykaa.com/media/catalog/product/d/4/d4efa8aPLUMX00000286_01.jpg",
+      "unit_price": 0,
+      "quantity": 1,
+      "total_price": 0,
+      "id": 3,
+      "order_id": 2
+    },
+    {
+      "product_id": 1,
+      "product_name": "Botanical Glow Serum",
+      "unit_price": 48,
+      "quantity": 1,
+      "total_price": 48,
+      "id": 4,
+      "order_id": 3
+    }
+  ],
+  "coupons": [
+    {
+      "id": 1,
+      "code": "GLOW20",
+      "discount_type": "percentage",
+      "discount_value": 20,
+      "min_order_amount": 30,
+      "max_usage": 1000,
+      "times_used": 0,
+      "expires_at": "2027-12-31T23:59:59Z",
+      "status": "active"
+    },
+    {
+      "id": 2,
+      "code": "SKIN10",
+      "discount_type": "fixed",
+      "discount_value": 10,
+      "min_order_amount": 40,
+      "max_usage": 500,
+      "times_used": 0,
+      "expires_at": "2027-12-31T23:59:59Z",
+      "status": "active"
+    },
+    {
+      "id": 3,
+      "code": "WELCOME15",
+      "discount_type": "percentage",
+      "discount_value": 15,
+      "min_order_amount": 25,
+      "max_usage": 200,
+      "times_used": 0,
+      "expires_at": "2027-12-31T23:59:59Z",
+      "status": "active"
+    }
+  ],
+  "skin_profiles": [],
+  "skin_analyses": []
+}
