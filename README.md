@@ -6,7 +6,7 @@
 
 This contains everything you need to run your app locally.
 
-View your app in AI Studio: https://ai.studio/apps/8916f3af-12d2-4891-889f-c0dc06dacbfa
+View your app in AI Studio: https://dream-cosmetic-skincare-e-commerce.ai.studio
 
 ## Run Locally
 
